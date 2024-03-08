@@ -15,6 +15,7 @@ func main() {
 	userHandler := handler.UserHandler{}
 
 	app.Use(withUser)
+	app.Static("/assets", "assets")
 	app.GET("/user", userHandler.HandleUserShow)
 	app.Start(":3000")
 }

@@ -2,12 +2,17 @@
 package layout
 
 templ Base() {
-<html>
-    <head>
-    </head>
-    <body>
-    This is the base layout
-    { children... }
-    </body>
-</html>
+    <!DOCTYPE html>
+	<html>
+		<head>
+			<script src="/assets/js/htmx.min.js"></script>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<link href="/assets/css/tailwind.css" rel="stylesheet"/>
+		</head>
+		<body>
+			This is the base layout
+			{ children... }
+		</body>
+	</html>
 }
