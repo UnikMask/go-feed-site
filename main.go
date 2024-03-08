@@ -17,23 +17,24 @@ func main() {
 
 	userHandler := handler.UserHandler{}
 
-    err := openDatabase()
-    if err != nil {
-        log.Fatalf("Failed to open database: %s", err.Error())
-    }
-    err = executeFile("db/on_startup.sql", db)
-    if err != nil {
-        db.Close()
-        log.Fatalf("Failed to start up database: %s", err.Error())
-    }
+	err := openDatabase()
+	if err != nil {
+		log.Fatalf("Failed to open database: %s", err.Error())
+	}
+	err = executeFile("db/on_startup.sql", db)
+	if err != nil {
+		db.Close()
+		log.Fatalf("Failed to start up database: %s", err.Error())
+	}
 
 	app.Use(withUser)
 	app.Static("/assets", "assets")
 	app.GET("/", handler.HandleMainPageShow)
+	app.GET("/login", handler.HandleLoginPageShow)
 	app.GET("/user", userHandler.HandleUserShow)
 	app.Start(":3000")
 
-    db.Close()
+	db.Close()
 }
 
 func withUser(next echo.HandlerFunc) echo.HandlerFunc {
