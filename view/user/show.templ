@@ -3,10 +3,16 @@ package user
 
 import (
 	"github.com/UnikMask/gofeedsite/view/layout"
+	"github.com/UnikMask/gofeedsite/view/components"
+	"github.com/UnikMask/gofeedsite/model"
 )
 
-templ Show() {
+templ Show(user model.User) {
+	<h1>
+		{ ctx.Value("user").(string) }
+	</h1>
 	@layout.Base() {
-		<h1>Hello from the userpage!!</h1>
+		<h1>Hello { user.Email } from the userpage!!</h1>
+		@components.Input("email", "email")
 	}
 }
