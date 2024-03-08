@@ -16,6 +16,7 @@ func main() {
 
 	app.Use(withUser)
 	app.Static("/assets", "assets")
+	app.GET("/", handler.HandleMainPageShow)
 	app.GET("/user", userHandler.HandleUserShow)
 	app.Start(":3000")
 }
