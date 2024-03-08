@@ -1,30 +1,32 @@
 package components
 
 templ TopNav() {
-	<div class="flex flex-nowrap flex-row justify-evenly border-black border-b-2 h-1/6 min-h-120px">
-		<div class="ml-5 mr-5 mt-5 mb-4 text-2xl text-bold flex-none">
-			<div class="text-center">
+	<div class="flex flex-row justify-evenly border-gray-600 border-b-2 h-20 min-h-120px">
+		<div class="ml-5 mr-5 flex flex-col justify-center">
+			<div class="text-2xl text-bold text-center">
 				{ `Basic Web App` }
 			</div>
 		</div>
-		<div class="ml-5 mr-5 p-30 flex-grow flex justify-center">
-			<input
-				class="rounded-lg h-8 w-1/2 mt-6 border-solid border-2 border-gray-600 bg-gray-200"
-				type="text"
-				name="search"
-				placeholder="Search User..."
-			/>
+		<div class="ml-5 mr-5 flex-grow flex flex-col justify-center">
+			<div class="flex flex-row justify-center">
+				<input
+					class="rounded-lg h-8 w-1/2 border-2 border-gray-600 bg-gray-200"
+					type="text"
+					name="search"
+					placeholder="Search User..."
+				/>
+			</div>
 		</div>
-		<div class="flex-none ml-5 mr-5 mt-4 mb-4">
+		<div class="flex-none ml-5 mr-5 flex flex-col justify-center">
 			<div class="flex flex-row gap-4">
 				<button
-					class="text-xl p-4 bg-blue-600 rounded-lg hover:bg-blue-800 transition-colors duration-500"
+					class="text-xl p-3 bg-blue-600 rounded-lg hover:bg-blue-800 transition-colors duration-200"
 					type="button"
 				>
 					{ `Log In` }
 				</button>
 				<button
-					class="text-xl p-4 bg-gray-400 rounded-lg hover:bg-gray-600 transition-colors duration-500"
+					class="text-xl p-3 bg-gray-400 rounded-lg hover:bg-gray-600 transition-colors duration-200"
 					type="button"
 				>
 					{ `Sign Up` }
