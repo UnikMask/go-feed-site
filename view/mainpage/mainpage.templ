@@ -1,11 +1,13 @@
 package mainpage
 
 import "github.com/UnikMask/gofeedsite/view/layout"
+import "github.com/UnikMask/gofeedsite/view/components"
 
 templ MainPage() {
 	@layout.Base() {
+		@components.TopNav()
 		<div class="text-3xl font-bold text-center mt-80">
-			Welcome to this basic feed app!!
+			{ `Welcome to this basic feed app!!` }
 		</div>
 	}
 }
