@@ -2,40 +2,34 @@ package components
 
 var buttonCommonClasses string = "text-xl p-3 rounded-lg transition-colors duration-200"
 
-templ LogIn() {
-	<button type="button" class={ buttonCommonClasses + " bg-blue-600 hover:bg-blue-600" }>
-		{ `Log In` }
-	</button>
+templ LogInButton() {
+<form hx-boost="true" action="/login" hx-push-url="true" method="get">
+    <input type="submit" value="Log In" class={ buttonCommonClasses + " bg-blue-600 hover:bg-blue-800" } />
+</form>
 }
 
-templ SignUp() {
-	<button type="button" class={ buttonCommonClasses + " bg-gray-400 hover:bg-gray-600" }>
-		{ `Sign Up` }
-	</button>
+templ SignUpButton() {
+<form hx-boost="true" action="/login" hx-push-url="true" method="get">
+    <input type="submit" value="Sign Up" class={ buttonCommonClasses + " bg-gray-400 hover:bg-gray-600" } />
+</form>
 }
 
 templ TopNav() {
-	<div class="flex flex-row justify-evenly border-gray-600 border-b-2 h-20 min-h-120px">
-		<div class="ml-5 mr-5 flex flex-col justify-center">
-			<div class="text-2xl text-bold text-center">
-				{ `Basic Web App` }
-			</div>
-		</div>
-		<div class="ml-5 mr-5 flex-grow flex flex-col justify-center">
-			<div class="flex flex-row justify-center">
-				<input
-					class="rounded-lg h-8 w-1/2 border-2 border-gray-600 bg-gray-200"
-					type="text"
-					name="search"
-					placeholder="Search User..."
-				/>
-			</div>
-		</div>
-		<div class="flex-none ml-5 mr-5 flex flex-col justify-center">
-			<div class="flex flex-row gap-4">
-				@LogIn()
-				@SignUp()
-			</div>
-		</div>
-	</div>
+<div class="flex flex-row justify-evenly border-gray-600 border-b-2 h-20 min-h-120px">
+    <form class="ml-5 mr-5 flex flex-col justify-center" hx-boost="true" action="/" hx-push-url="true" method="get">
+        <input type="submit" value="Basic Web App" class="text-2xl text-bold text-center" />
+    </form>
+    <div class="ml-5 mr-5 flex-grow flex flex-col justify-center">
+        <div class="flex flex-row justify-center">
+            <input class="rounded-lg h-8 w-1/2 border-2 border-gray-600 bg-gray-200" type="text" name="search"
+                placeholder="Search User..." />
+        </div>
+    </div>
+    <div class="flex-none ml-5 mr-5 flex flex-col justify-center">
+        <div class="flex flex-row gap-4">
+            @LogInButton()
+            @SignUpButton()
+        </div>
+    </div>
+</div>
 }
