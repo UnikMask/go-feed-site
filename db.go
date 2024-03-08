@@ -3,7 +3,6 @@ package main
 import (
 	"database/sql"
 
-	"fmt"
 	"os"
 )
 
@@ -13,7 +12,6 @@ func executeFile(fp string, db *sql.DB) error {
         return err
     }
     queryString, err := readFile(fp)
-    fmt.Println(queryString)
     if err != nil {
         return err
     }
