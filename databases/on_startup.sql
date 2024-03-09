@@ -1,31 +1,28 @@
 PRAGMA foreign_keys = ON;
 CREATE TABLE IF NOT EXISTS Users (
-    id int,
     username varchar,
     email varchar,
     first_name varchar,
     last_name varchar,
-    password_hash varchar,
-    PRIMARY KEY(id)
+    password_hash varchar
 );
 
 CREATE TABLE IF NOT EXISTS Follows (
     follower int,
     followee int,
-    FOREIGN KEY(follower) REFERENCES Users(id),
-    FOREIGN KEY(followee) REFERENCES Users(id),
+    FOREIGN KEY(follower) REFERENCES Users(ROWID),
+    FOREIGN KEY(followee) REFERENCES Users(ROWID),
     PRIMARY KEY(follower, followee)
 );
 
 CREATE TABLE IF NOT EXISTS Posts (
-    id int,
     contents varchar(3000)
 );
 
 CREATE TABLE IF NOT EXISTS Likes (
     user_id int,
     post_id int,
-    FOREIGN KEY(user_id) REFERENCES Users(id),
-    FOREIGN KEY(post_id) REFERENCES Posts(id),
+    FOREIGN KEY(user_id) REFERENCES Users(ROWID),
+    FOREIGN KEY(post_id) REFERENCES Posts(ROWID),
     PRIMARY KEY(user_id, post_id)
 );
