@@ -1,6 +1,6 @@
 PRAGMA foreign_keys = ON;
 CREATE TABLE IF NOT EXISTS Users (
-    id int
+    id int,
     username varchar,
     email varchar,
     first_name varchar,
