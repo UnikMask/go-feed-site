@@ -3,6 +3,8 @@ CREATE TABLE IF NOT EXISTS Users (
     id int
     username varchar,
     email varchar,
+    first_name varchar,
+    last_name varchar,
     password_hash varchar,
     PRIMARY KEY(id)
 );
