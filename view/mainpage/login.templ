@@ -3,19 +3,35 @@ package mainpage
 import "github.com/UnikMask/gofeedsite/view/layout"
 import "github.com/UnikMask/gofeedsite/view/components"
 
+var submitButtonStyle string = `bg-gray-400 hover:bg-gray-600 dark:bg-slate-400
+hover:dark:bg-slate-200`
+
 templ LogInCard() {
-	<div class="w-64 flex flex-col">
+	<div class="flex flex-col pt-2">
 		<div class="text-lg text-slate-500">Log In:</div>
-		<div>
+		<div class="m-3">
 			<form>
-				<label for="text-username">Username:</label>
+				@components.Input("username", "username", "Username")
+				@components.Input("password", "password", "Password")
 				<br/>
-				<input type="text" id="text-username" placeholder="Enter username..."/>
+				@components.SubmitButton("Log In", "/forms/login", submitButtonStyle)
+			</form>
+		</div>
+	</div>
+}
+
+templ SignUpCard() {
+	<div class="flex flex-col pt-2">
+		<div class="text-lg text-slate-500">Sign Up:</div>
+		<div class="m-3">
+			<form>
+				@components.Input("username", "username", "Username")
+				@components.Input("email", "email", "Email")
+				@components.Input("password", "password", "Password")
+				@components.Input("text", "firstname", "First Name")
+				@components.Input("text", "lastname", "Last Name")
 				<br/>
-				<label for="text-password">Password:</label>
-				<br/>
-				<input type="password" id="text-password" placeholder="Enter password..."/>
-				<br/>
+				@components.SubmitButton("Sign Up", "/forms/signup", submitButtonStyle)
 			</form>
 		</div>
 	</div>
@@ -25,9 +41,11 @@ templ LoginPageShow() {
 	@layout.Base() {
 		@components.TopNav()
 		<div class="flex-1 flex flex-row justify-center">
-			<div class="bg-white dark:bg-slate-800 rounded-xl container grid grid-cols-3 divide-x-2 justify-around m-10">
-				@LogInCard()
-				@LogInCard()
+			<div class="flex flex-col justify-center">
+				<div class="bg-white dark:bg-slate-800 rounded-xl flex-shrink grid grid-cols-2 divide-x-2 justify-around m-10">
+					@LogInCard()
+					@SignUpCard()
+				</div>
 			</div>
 		</div>
 	}

@@ -21,3 +21,11 @@ templ Input(typ string, name string, display string) {
 	<br/>
 	<div id={ name + "-results" }></div>
 }
+
+templ SubmitButton(name string, hxPost string, tailwind string) {
+	<button
+		class={ "text-lg pt-1 bp-2 pr-3 pl-3 rounded-md transition-colors duration-200" + tailwind }
+		type="submit"
+		hx-post={ hxPost }
+	>{ name }</button>
+}
