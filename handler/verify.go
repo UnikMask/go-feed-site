@@ -34,13 +34,6 @@ var (
 	}
 )
 
-func AttachVerifyHandlers(app *echo.Echo) {
-	formTypes := []string{"username", "email", "password"}
-	for _, formType := range formTypes {
-		app.POST("/forms/verify/"+formType, attachFormsVerifyValue(formType))
-	}
-}
-
 func attachFormsVerifyValue(typ string) func(c echo.Context) error {
 	verifications := []Verification{}
 	for _, verif := range verifiers {

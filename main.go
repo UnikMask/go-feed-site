@@ -29,7 +29,7 @@ func main() {
 	app.GET("/", handler.HandleMainPageShow)
 	app.GET("/login", handler.HandleLoginPageShow)
 	app.GET("/user", userHandler.HandleUserShow)
-	handler.AttachVerifyHandlers(app)
+	handler.AttachFormHandlers(app)
 	app.Start(":3000")
 
 	databases.CloseDatabase()

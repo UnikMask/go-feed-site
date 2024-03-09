@@ -38,7 +38,12 @@ func ExecutePreparedStatement(fp string, args ...string) error {
 	if err != nil {
 		return err
 	}
-	_, err = stmt.Exec(args)
+
+	args_any := []any{}
+	for _, arg := range args {
+		args_any = append(args_any, arg)
+	}
+	_, err = stmt.Exec(args_any...)
 	if err != nil {
 		return err
 	}
