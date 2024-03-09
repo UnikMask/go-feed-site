@@ -1,8 +1,10 @@
 package components
 
-templ InputError(msg string) {
-	<div class="text-red-500 rounded-md">msg</div>
-	<br/>
+templ InputError(messages []string) {
+	for _, msg := range messages {
+		<div class="text-red-500 rounded-md">{ msg }</div>
+		<br/>
+	}
 }
 
 templ Input(typ string, name string, display string) {
@@ -11,10 +13,9 @@ templ Input(typ string, name string, display string) {
 	<input
 		hx-type={ typ }
 		name={ name }
-		hx-post="/forms/verify"
+		hx-post={ "/forms/verify/" + typ }
 		hx-trigger="input change delay:500ms"
-		hx-target={ "#" +
-    name + "-results" }
+		hx-target={ "#" + name + "-results" }
 		placeholder={ "Enter " + display + " ..." }
 	/>
 	<br/>
