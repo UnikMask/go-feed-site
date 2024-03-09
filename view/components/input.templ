@@ -1,32 +1,33 @@
 package components
 
 templ InputError(messages []string) {
-	if len(messages) == 0 {
-		<br/>
-	}
 	for _, msg := range messages {
 		<div class="text-red-500 rounded-md">{ msg }</div>
 	}
+	<br/>
 }
 
 templ Input(typ string, name string, display string) {
-	<label for={ "text-" + name }>{ display }:</label>
-	<br/>
-	<input
-		hx-type={ typ }
-		name={ name }
-		hx-post={ "/forms/verify/" + typ }
-		hx-trigger="input change delay:500ms"
-		hx-target={ "#" + name + "-results" }
-		placeholder={ "Enter " + display + " ..." }
-	/>
-	<br/>
-	<div id={ name + "-results" }><br/></div>
+	<div class="flex flex-col gap-2">
+		<label class="font-bold" for={ "text-" + name }>{ display }:</label>
+		<input
+			class="bg-gray-200 dark:bg-slate-900 text-gray-800 dark:text-slate-100 p-1 b-1"
+			hx-type={ typ }
+			type={ typ }
+			name={ typ }
+			hx-post={ "/forms/verify/" + typ }
+			hx-trigger="input change delay:500ms"
+			hx-target={ "#" +
+        name+"-results" }
+			placeholder={ "Enter " + display + " ..." }
+		/>
+		<div id={ name + "-results" }><br/></div>
+	</div>
 }
 
 templ SubmitButton(name string, hxPost string, tailwind string) {
 	<button
-		class={ "text-lg pt-1 bp-2 pr-3 pl-3 rounded-md transition-colors duration-200" + tailwind }
+		class={ "text-lg pt-1 pb-2 pr-3 pl-3 rounded-md transition-colors duration-200 " + tailwind }
 		type="submit"
 		hx-post={ hxPost }
 	>{ name }</button>

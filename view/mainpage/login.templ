@@ -3,8 +3,8 @@ package mainpage
 import "github.com/UnikMask/gofeedsite/view/layout"
 import "github.com/UnikMask/gofeedsite/view/components"
 
-var submitButtonStyle string = `bg-gray-400 hover:bg-gray-600 dark:bg-slate-400
-hover:dark:bg-slate-200`
+var submitButtonStyle string = `bg-gray-200 hover:bg-gray-400 dark:bg-slate-900
+hover:dark:bg-slate-600`
 
 templ LogInCard() {
 	<div class="flex flex-col p-4">
@@ -12,9 +12,8 @@ templ LogInCard() {
 		<div>
 			<form>
 				<br/>
-				@components.Input("username", "username", "Username")
-				@components.Input("password", "password", "Password")
-				<br/>
+				@components.Input("username", "login-username", "Username")
+				@components.Input("password", "login-password", "Password")
 				@components.SubmitButton("Log In", "/forms/login", submitButtonStyle)
 			</form>
 		</div>
@@ -27,12 +26,13 @@ templ SignUpCard() {
 		<div>
 			<form>
 				<br/>
-				@components.Input("username", "username", "Username")
-				@components.Input("email", "email", "Email")
-				@components.Input("password", "password", "Password")
-				@components.Input("text", "firstname", "First Name")
-				@components.Input("text", "lastname", "Last Name")
-				<br/>
+				@components.Input("username", "signup-username", "Username")
+				@components.Input("email", "signup-email", "Email")
+				@components.Input("password", "signup-password", "Password")
+				<div class="flex flex-row gap-4">
+					@components.Input("text", "signup-firstname", "First Name")
+					@components.Input("text", "signup-lastname", "Last Name")
+				</div>
 				@components.SubmitButton("Sign Up", "/forms/signup", submitButtonStyle)
 			</form>
 		</div>
@@ -44,7 +44,9 @@ templ LoginPageShow() {
 		@components.TopNav()
 		<div class="flex-1 flex flex-row justify-center">
 			<div class="flex flex-col justify-center">
-				<div class="bg-white dark:bg-slate-800 rounded-xl flex-shrink grid grid-cols-2 divide-x-2 justify-around m-10">
+				<div
+					class="bg-white dark:bg-slate-800 border-b-8 border-r-8 border-t-2 border-l-2 border-gray-400 dark:border-slate-950 rounded-xl flex-shrink grid grid-cols-2 divide-x-4 divide-gray-200 dark:divide-slate-900 justify-around m-10"
+				>
 					@LogInCard()
 					@SignUpCard()
 				</div>
