@@ -4,22 +4,13 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/UnikMask/gofeedsite/databases"
+	"github.com/UnikMask/gofeedsite/auth"
 	"github.com/UnikMask/gofeedsite/view/components"
 	"github.com/labstack/echo/v4"
-	"golang.org/x/crypto/bcrypt"
 )
 
-type UserSignUp struct {
-	Username  string `form:"username"`
-	Email     string `form:"email"`
-	Password  string `form:"password"`
-	FirstName string `form:"firstname"`
-	LastName  string `form:"lastname"`
-}
-
 func HandleSignUp(c echo.Context) error {
-	u := UserSignUp{}
+	u := auth.User{}
 	err := c.Bind(&u)
 	if err != nil {
 		log.Printf("Signup binding error: %s", err)
@@ -40,16 +31,8 @@ func HandleSignUp(c echo.Context) error {
 	}
 
 	// Hash password
-	pass, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
+	err = auth.SignUp(u)
 	if err != nil {
-		log.Printf("Signup password hash generation error: %s", err)
-		return render(c, components.InputError([]string{
-			"Internal Server Error Occured - please try again later."}))
-	}
-
-	err = databases.ExecutePreparedStatement("databases/sign_up.sql", u.Username, u.Email, u.FirstName, u.LastName, string(pass[:]))
-	if err != nil {
-		log.Printf("Signup prepared statement execution error: %s", err)
 		return render(c, components.InputError([]string{
 			"Internal Server Error Occured - please try again later."}))
 	}

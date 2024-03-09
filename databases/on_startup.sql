@@ -7,6 +7,11 @@ CREATE TABLE IF NOT EXISTS Users (
     password_hash varchar
 );
 
+CREATE TABLE IF NOT EXISTS Sessions (
+    user_id int,
+    expiration date
+);
+
 CREATE TABLE IF NOT EXISTS Follows (
     follower int,
     followee int,
