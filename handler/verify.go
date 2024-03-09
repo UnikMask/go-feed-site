@@ -11,44 +11,46 @@ import (
 )
 
 type Verification struct {
-	Name         string
 	Verifier     func(value string) bool
 	ErrorMessage string
 }
 
 var (
-	passwordRegex *regexp.Regexp = compileRegex("[a-zA-Z0-9#?!@$ %^&*-;:,.\\(\\)\\[\\]]?")
-	usernameRegex *regexp.Regexp = compileRegex("[a-zA-Z0-9_]?")
-	verifiers     []Verification = []Verification{
-		{"email", checkEmail, "Email Address is invalid!"},
-		{"username", checkTooBig(32), "Username must be at most 32 characters!"},
-		{"username", checkTooShort(6), "Username must be at least 6 characters!"},
-		{"username", usernameRegex.MatchString, "Usernames can only contain digits, letters, and `_`!"},
-		{"password", checkTooShort(8), "Password must not have less than 8 characters!"},
-		{"password", checkTooBig(128), "Password must not have more than 128 characters!"},
-		{"password", checkDigits, "Password must have at least 1 digit!"},
-		{"password", checkLowers, "Password must have at least 1 lowercase letter!"},
-		{"password", checkUppers, "Password must have at least 1 uppercase letter!"},
-		{"password", checkSpecials, "Password have at least 1 special character!"},
-		{"password", passwordRegex.MatchString, "Password must only contain letters, digits, and specials!"},
+	passwordRegex     *regexp.Regexp = compileRegex("^[a-zA-Z0-9#?!@$ %^&*-;:,.\\(\\)\\[\\]]?$")
+	usernameRegex     *regexp.Regexp = compileRegex("^[a-zA-Z0-9_]*$")
+	PasswordVerifiers                = []Verification{
+		{checkTooShort(8), "Password must not have less than 8 characters!"},
+		{checkTooBig(128), "Password must not have more than 128 characters!"},
+		{checkDigits, "Password must have at least 1 digit!"},
+		{checkLowers, "Password must have at least 1 lowercase letter!"},
+		{checkUppers, "Password must have at least 1 uppercase letter!"},
+		{checkSpecials, "Password have at least 1 special character!"},
+		{passwordRegex.MatchString, "Password must only contain letters, digits, and specials!"},
 	}
+	EmailVerifiers    = []Verification{{checkEmail, "Email Address is invalid!"}}
+	UsernameVerifiers = []Verification{
+		{checkTooBig(32), "Username must be at most 32 characters!"},
+		{checkTooShort(6), "Username must be at least 6 characters!"},
+		{usernameRegex.MatchString, "Usernames can only contain digits, letters, and `_`!"},
+	}
+	NameVerifiers = []Verification{
+		{usernameRegex.MatchString, "Names can only contain letters"}}
 )
 
-func attachFormsVerifyValue(typ string) func(c echo.Context) error {
-	verifications := []Verification{}
+func GetMessages(verifiers []Verification, value string) []string {
+	messages := []string{}
 	for _, verif := range verifiers {
-		if verif.Name == typ {
-			verifications = append(verifications, verif)
+		if !verif.Verifier(value) {
+			messages = append(messages, verif.ErrorMessage)
 		}
 	}
+	return messages
+}
+
+func attachFormsVerifyType(typ string, verifier []Verification) func(c echo.Context) error {
 	return func(c echo.Context) error {
 		value := c.FormValue(typ)
-		errorMessages := []string{}
-		for _, verif := range verifications {
-			if !verif.Verifier(value) {
-				errorMessages = append(errorMessages, verif.ErrorMessage)
-			}
-		}
+		errorMessages := GetMessages(verifier, value)
 		return components.InputError(errorMessages).Render(c.Request().Context(), c.Response())
 	}
 }

@@ -15,7 +15,7 @@ templ Input(typ string, name string, display string, verify bool) {
 				class="bg-gray-200 dark:bg-slate-900 text-gray-800 dark:text-slate-100 p-1 b-1"
 				type={ typ }
 				name={ name }
-				hx-post={ "/forms/verify/" + typ }
+				hx-post={ "/forms/verify/" + name }
 				hx-trigger="input changed delay:500ms"
 				hx-target={ "#" + name + "-results" }
 				placeholder={ "Enter " + display + " ..." }
@@ -34,9 +34,13 @@ templ Input(typ string, name string, display string, verify bool) {
 }
 
 templ SubmitButton(name string, hxPost string, tailwind string) {
-	<button
-		class={ "text-lg pt-1 pb-2 pr-3 pl-3 rounded-md transition-colors duration-200 " + tailwind }
-		type="submit"
-		hx-post={ hxPost }
-	>{ name }</button>
+	<div class="flex flex-row gap-2">
+		<button
+			class={ "text-lg pt-1 pb-2 pr-3 pl-3 rounded-md transition-colors duration-200 " + tailwind }
+			type="submit"
+			hx-post={ hxPost }
+			hx-target="next div"
+		>{ name }</button>
+		<div></div>
+	</div>
 }
