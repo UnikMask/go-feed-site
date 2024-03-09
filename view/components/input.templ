@@ -14,8 +14,8 @@ templ Input(typ string, name string, display string) {
 			class="bg-gray-200 dark:bg-slate-900 text-gray-800 dark:text-slate-100 p-1 b-1"
 			hx-type={ typ }
 			type={ typ }
-			name={ typ }
-			hx-post={ "/forms/verify/" + typ }
+			name={ name }
+			hx-post={ "/forms/verify/" + name }
 			hx-trigger="input change delay:500ms"
 			hx-target={ "#" +
         name+"-results" }

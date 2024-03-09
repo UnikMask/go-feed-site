@@ -29,16 +29,16 @@ var (
 		_, err := mail.ParseAddress(value)
 		return err == nil
 	}, "Email Address is invalid!"},
-		{"username", func(value string) bool {
+		{"signup-username", func(value string) bool {
 			return len(value) < 32
 		}, "Username must be less than 32 characters!"},
-		{"password", func(value string) bool {
+		{"signup-password", func(value string) bool {
 			return len(value) >= 8
 		}, "Password must not have less than 8 characters!"},
-		{"password", func(value string) bool {
+		{"signup-password", func(value string) bool {
 			return len(value) <= 128
 		}, "Password must not have more than 128 characters!"},
-		{"password", func(value string) bool {
+		{"signup-password", func(value string) bool {
 			for _, c := range value {
 				if unicode.IsNumber(c) {
 					return true
@@ -46,7 +46,7 @@ var (
 			}
 			return false
 		}, "Password must have at least 1 digit!"},
-		{"password", func(value string) bool {
+		{"signup-password", func(value string) bool {
 			for _, c := range value {
 				if unicode.IsLower(c) {
 					return true
@@ -54,7 +54,7 @@ var (
 			}
 			return false
 		}, "Password must have at least 1 lowercase letter!"},
-		{"password", func(value string) bool {
+		{"signup-password", func(value string) bool {
 			for _, c := range value {
 				if unicode.IsUpper(c) {
 					return true
@@ -62,7 +62,7 @@ var (
 			}
 			return false
 		}, "Password must have at least 1 uppercase letter!"},
-		{"password", func(value string) bool {
+		{"signup-password", func(value string) bool {
 			for _, c := range value {
 				if unicode.IsPunct(c) || unicode.IsSymbol(c) {
 					return true
@@ -70,14 +70,14 @@ var (
 			}
 			return false
 		}, "Password have at least 1 special character!"},
-		{"password", func(value string) bool {
+		{"signup-password", func(value string) bool {
 			return passwordRegex.MatchString(value)
 		}, "Password must only contain letters, digits, and specials!"},
 	}
 )
 
 func AttachVerifyHandlers(app *echo.Echo) {
-	formTypes := []string{"username", "email", "password"}
+	formTypes := []string{"signup-username", "signup-email", "signup-password"}
 	for _, formType := range formTypes {
 		app.POST("/forms/verify/"+formType, attachFormsVerifyValue(formType))
 	}
