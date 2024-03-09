@@ -1,5 +1,22 @@
 package components
 
-templ Input(typ string, name string) {
-    <input type={typ} name={name} />
+templ InputError(msg string) {
+	<div class="text-red-500 rounded-md">msg</div>
+	<br/>
+}
+
+templ Input(typ string, name string, display string) {
+	<label for={ "text-" + name }>{ display }:</label>
+	<br/>
+	<input
+		hx-type={ typ }
+		name={ name }
+		hx-post="/forms/verify"
+		hx-trigger="input change delay:500ms"
+		hx-target={ "#" +
+    name + "-results" }
+		placeholder={ "Enter " + display + " ..." }
+	/>
+	<br/>
+	<div id={ name + "-results" }></div>
 }

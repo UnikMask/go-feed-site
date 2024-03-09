@@ -12,7 +12,7 @@ templ Show(user model.User) {
 		{ ctx.Value("user").(string) }
 	</h1>
 	@layout.Base() {
-		<h1 class="text-black font-bold text-xl">Hello { user.Email } from the userpage!!</h1>
-		@components.Input("email", "email")
+		<h1 class="font-bold text-xl">Hello { user.Email } from the userpage!!</h1>
+		@components.Input("email", "email", "Email")
 	}
 }
