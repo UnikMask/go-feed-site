@@ -7,10 +7,11 @@ var submitButtonStyle string = `bg-gray-400 hover:bg-gray-600 dark:bg-slate-400
 hover:dark:bg-slate-200`
 
 templ LogInCard() {
-	<div class="flex flex-col pt-2">
+	<div class="flex flex-col p-4">
 		<div class="text-lg text-slate-500">Log In:</div>
-		<div class="m-3">
+		<div>
 			<form>
+				<br/>
 				@components.Input("username", "username", "Username")
 				@components.Input("password", "password", "Password")
 				<br/>
@@ -21,10 +22,11 @@ templ LogInCard() {
 }
 
 templ SignUpCard() {
-	<div class="flex flex-col pt-2">
+	<div class="flex flex-col p-4">
 		<div class="text-lg text-slate-500">Sign Up:</div>
-		<div class="m-3">
+		<div>
 			<form>
+				<br/>
 				@components.Input("username", "username", "Username")
 				@components.Input("email", "email", "Email")
 				@components.Input("password", "password", "Password")

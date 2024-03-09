@@ -1,9 +1,11 @@
 package components
 
 templ InputError(messages []string) {
+	if len(messages) == 0 {
+		<br/>
+	}
 	for _, msg := range messages {
 		<div class="text-red-500 rounded-md">{ msg }</div>
-		<br/>
 	}
 }
 
@@ -19,7 +21,7 @@ templ Input(typ string, name string, display string) {
 		placeholder={ "Enter " + display + " ..." }
 	/>
 	<br/>
-	<div id={ name + "-results" }></div>
+	<div id={ name + "-results" }><br/></div>
 }
 
 templ SubmitButton(name string, hxPost string, tailwind string) {
