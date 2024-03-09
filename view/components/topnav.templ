@@ -23,7 +23,7 @@ templ SignUpButton() {
 }
 
 templ TopNav() {
-	<div class="flex flex-row justify-evenly dark:border-gray-400 border-gray-600 h-14 border-b-2 ">
+	<header class="flex flex-row justify-evenly dark:border-gray-400 border-gray-600 h-14 border-b-2 ">
 		<form class="ml-5 mr-5 flex flex-col justify-center" hx-boost="true" action="/" hx-push-url="true" method="get">
 			<input type="submit" value="Basic Web App" class="text-2xl text-bold text-center"/>
 		</form>
@@ -43,5 +43,5 @@ templ TopNav() {
 				@SignUpButton()
 			</div>
 		</div>
-	</div>
+	</header>
 }
