@@ -7,11 +7,11 @@ import (
 )
 
 type UserSignUp struct {
-	Username  string `form:"signup-username"`
-	Email     string `form:"signup-email"`
-	Password  string `form:"signup-password"`
-	FirstName string `form:"signup-firstname"`
-	LastName  string `form:"signup-lastname"`
+	Username  string `form:"username"`
+	Email     string `form:"email"`
+	Password  string `form:"password"`
+	FirstName string `form:"firstname"`
+	LastName  string `form:"lastname"`
 }
 
 func HandleSignUp(c echo.Context) error {

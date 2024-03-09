@@ -12,8 +12,8 @@ templ LogInCard() {
 		<div>
 			<form>
 				<br/>
-				@components.Input("username", "login-username", "Username")
-				@components.Input("password", "login-password", "Password")
+				@components.Input("username", "username", "Username", false)
+				@components.Input("password", "password", "Password", false)
 				@components.SubmitButton("Log In", "/forms/login", submitButtonStyle)
 			</form>
 		</div>
@@ -26,12 +26,12 @@ templ SignUpCard() {
 		<div>
 			<form>
 				<br/>
-				@components.Input("username", "signup-username", "Username")
-				@components.Input("email", "signup-email", "Email")
-				@components.Input("password", "signup-password", "Password")
+				@components.Input("username", "username", "Username", true)
+				@components.Input("email", "email", "Email", true)
+				@components.Input("password", "password", "Password", true)
 				<div class="flex flex-row gap-4">
-					@components.Input("text", "signup-firstname", "First Name")
-					@components.Input("text", "signup-lastname", "Last Name")
+					@components.Input("text", "firstname", "First Name", true)
+					@components.Input("text", "lastname", "Last Name", true)
 				</div>
 				@components.SubmitButton("Sign Up", "/forms/signup", submitButtonStyle)
 			</form>

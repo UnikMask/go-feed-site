@@ -7,21 +7,29 @@ templ InputError(messages []string) {
 	<br/>
 }
 
-templ Input(typ string, name string, display string) {
+templ Input(typ string, name string, display string, verify bool) {
 	<div class="flex flex-col gap-2">
 		<label class="font-bold" for={ "text-" + name }>{ display }:</label>
-		<input
-			class="bg-gray-200 dark:bg-slate-900 text-gray-800 dark:text-slate-100 p-1 b-1"
-			hx-type={ typ }
-			type={ typ }
-			name={ name }
-			hx-post={ "/forms/verify/" + name }
-			hx-trigger="input change delay:500ms"
-			hx-target={ "#" +
-        name+"-results" }
-			placeholder={ "Enter " + display + " ..." }
-		/>
-		<div id={ name + "-results" }><br/></div>
+		if verify {
+			<input
+				class="bg-gray-200 dark:bg-slate-900 text-gray-800 dark:text-slate-100 p-1 b-1"
+				type={ typ }
+				name={ name }
+				hx-post={ "/forms/verify/" + typ }
+				hx-trigger="input changed delay:500ms"
+				hx-target={ "#" + name + "-results" }
+				placeholder={ "Enter " + display + " ..." }
+			/>
+			<div id={ name + "-results" }><br/></div>
+		} else {
+			<input
+				class="bg-gray-200 dark:bg-slate-900 text-gray-800 dark:text-slate-100 p-1 b-1"
+				type={ typ }
+				name={ typ }
+				placeholder={ "Enter " + display + " ..." }
+			/>
+			<div><br/></div>
+		}
 	</div>
 }
 

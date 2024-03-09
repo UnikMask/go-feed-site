@@ -17,67 +17,25 @@ type Verification struct {
 }
 
 var (
-	passwordRegex *regexp.Regexp = func(v string) *regexp.Regexp {
-		res, err := regexp.Compile(v)
-		if err != nil {
-			log.Fatalf("Failed to compile regex: %s", err.Error())
-		}
-		return res
-	}("[a-zA-Z0-9#?!@$ %^&*-;:,.\\(\\)\\[\\]]")
-
-	verifiers []Verification = []Verification{{"email", func(value string) bool {
-		_, err := mail.ParseAddress(value)
-		return err == nil
-	}, "Email Address is invalid!"},
-		{"signup-username", func(value string) bool {
-			return len(value) < 32
-		}, "Username must be less than 32 characters!"},
-		{"signup-password", func(value string) bool {
-			return len(value) >= 8
-		}, "Password must not have less than 8 characters!"},
-		{"signup-password", func(value string) bool {
-			return len(value) <= 128
-		}, "Password must not have more than 128 characters!"},
-		{"signup-password", func(value string) bool {
-			for _, c := range value {
-				if unicode.IsNumber(c) {
-					return true
-				}
-			}
-			return false
-		}, "Password must have at least 1 digit!"},
-		{"signup-password", func(value string) bool {
-			for _, c := range value {
-				if unicode.IsLower(c) {
-					return true
-				}
-			}
-			return false
-		}, "Password must have at least 1 lowercase letter!"},
-		{"signup-password", func(value string) bool {
-			for _, c := range value {
-				if unicode.IsUpper(c) {
-					return true
-				}
-			}
-			return false
-		}, "Password must have at least 1 uppercase letter!"},
-		{"signup-password", func(value string) bool {
-			for _, c := range value {
-				if unicode.IsPunct(c) || unicode.IsSymbol(c) {
-					return true
-				}
-			}
-			return false
-		}, "Password have at least 1 special character!"},
-		{"signup-password", func(value string) bool {
-			return passwordRegex.MatchString(value)
-		}, "Password must only contain letters, digits, and specials!"},
+	passwordRegex *regexp.Regexp = compileRegex("[a-zA-Z0-9#?!@$ %^&*-;:,.\\(\\)\\[\\]]?")
+	usernameRegex *regexp.Regexp = compileRegex("[a-zA-Z0-9_]?")
+	verifiers     []Verification = []Verification{
+		{"email", checkEmail, "Email Address is invalid!"},
+		{"username", checkTooBig(32), "Username must be at most 32 characters!"},
+		{"username", checkTooShort(6), "Username must be at least 6 characters!"},
+		{"username", usernameRegex.MatchString, "Usernames can only contain digits, letters, and `_`!"},
+		{"password", checkTooShort(8), "Password must not have less than 8 characters!"},
+		{"password", checkTooBig(128), "Password must not have more than 128 characters!"},
+		{"password", checkDigits, "Password must have at least 1 digit!"},
+		{"password", checkLowers, "Password must have at least 1 lowercase letter!"},
+		{"password", checkUppers, "Password must have at least 1 uppercase letter!"},
+		{"password", checkSpecials, "Password have at least 1 special character!"},
+		{"password", passwordRegex.MatchString, "Password must only contain letters, digits, and specials!"},
 	}
 )
 
 func AttachVerifyHandlers(app *echo.Echo) {
-	formTypes := []string{"signup-username", "signup-email", "signup-password"}
+	formTypes := []string{"username", "email", "password"}
 	for _, formType := range formTypes {
 		app.POST("/forms/verify/"+formType, attachFormsVerifyValue(formType))
 	}
@@ -104,4 +62,65 @@ func attachFormsVerifyValue(typ string) func(c echo.Context) error {
 
 func HandleFormVerify(c echo.Context) error {
 	return components.InputError([]string{"updog!"}).Render(c.Request().Context(), c.Response())
+}
+
+func checkEmail(value string) bool {
+	_, err := mail.ParseAddress(value)
+	return err == nil
+}
+
+func compileRegex(expr string) *regexp.Regexp {
+	res, err := regexp.Compile(expr)
+	if err != nil {
+		log.Fatalf("Failed to compile regex: %s", err.Error())
+	}
+	return res
+}
+
+func checkTooBig(h int) func(string) bool {
+	return func(value string) bool { return len(value) <= h }
+}
+
+func checkTooShort(l int) func(string) bool {
+	return func(value string) bool { return len(value) >= l }
+}
+
+func checkUppers(value string) bool {
+	for _, c := range value {
+		if unicode.IsUpper(c) {
+			return true
+		}
+	}
+	return false
+
+}
+
+func checkLowers(value string) bool {
+	for _, c := range value {
+		if unicode.IsLower(c) {
+			return true
+		}
+	}
+	return false
+
+}
+
+func checkDigits(value string) bool {
+	for _, c := range value {
+		if unicode.IsNumber(c) {
+			return true
+		}
+	}
+	return false
+
+}
+
+func checkSpecials(value string) bool {
+	for _, c := range value {
+		if unicode.IsPunct(c) || unicode.IsSymbol(c) {
+			return true
+		}
+	}
+	return false
+
 }
