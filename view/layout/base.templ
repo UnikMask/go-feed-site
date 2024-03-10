@@ -1,6 +1,21 @@
 // vim:ft=templ
 package layout
 
+import "github.com/UnikMask/gofeedsite/auth"
+
+func hasUserAuth(ctx context.Context) bool {
+	userSession := ctx.Value(auth.USER_SESSION_NAME)
+	return userSession != nil
+}
+
+func getAuthHxHeader(ctx context.Context) string {
+	if !hasUserAuth(ctx) {
+		return "{}"
+	}
+	userSession := ctx.Value(auth.USER_SESSION_NAME).(string)
+	return "{\"Authorization\": \"Bearer " + userSession + "\"}"
+}
+
 templ Base() {
 	<!DOCTYPE html>
 	<html>
@@ -10,8 +25,10 @@ templ Base() {
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 			<link href="/assets/css/tailwind.css?version=51" type="text/css" rel="stylesheet"/>
 		</head>
-		<body class="bg-gray-200 dark:bg-slate-900 dark:text-slate-200 flex flex-col h-screen transition-all duration-300">
-			{ children... }
+		<body hx-headers={ getAuthHxHeader(ctx) } class="bg-gray-200 dark:bg-slate-900 dark:text-slate-200">
+			<div class="flex flex-col h-screen transition-all duration-300">
+				{ children... }
+			</div>
 		</body>
 	</html>
 }
