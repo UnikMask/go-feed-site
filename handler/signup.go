@@ -33,9 +33,11 @@ func HandleSignUp(c echo.Context) error {
 	// Hash password
 	err = auth.SignUp(u)
 	if err != nil {
+		log.Printf("Error during user signup: %s", err.Error())
 		return render(c, components.InputError([]string{
 			"Internal Server Error Occured - please try again later."}))
 	}
+	auth.SetAuthCookie(c, auth.CreateJwtToken(u))
 	c.Response().Header().Set("HX-Redirect", "/")
 	return nil
 }
