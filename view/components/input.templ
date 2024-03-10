@@ -1,10 +1,17 @@
 package components
 
-templ InputError(messages []string) {
+var InternalServerErrorTemplate = InputErrors([]string{
+	"Internal Server Error occured - please try again later"})
+
+templ InputErrors(messages []string) {
 	for _, msg := range messages {
 		<div class="text-red-500 rounded-md">{ msg }</div>
 	}
 	<br/>
+}
+
+templ InputError(msg string) {
+    @InputErrors([]string{msg})
 }
 
 templ Input(typ string, name string, display string, verify bool) {

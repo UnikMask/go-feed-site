@@ -51,12 +51,12 @@ func attachFormsVerifyType(typ string, verifier []Verification) func(c echo.Cont
 	return func(c echo.Context) error {
 		value := c.FormValue(typ)
 		errorMessages := GetMessages(verifier, value)
-		return components.InputError(errorMessages).Render(c.Request().Context(), c.Response())
+		return components.InputErrors(errorMessages).Render(c.Request().Context(), c.Response())
 	}
 }
 
 func HandleFormVerify(c echo.Context) error {
-	return components.InputError([]string{"updog!"}).Render(c.Request().Context(), c.Response())
+	return components.InputError("updog!").Render(c.Request().Context(), c.Response())
 }
 
 func checkEmail(value string) bool {

@@ -14,4 +14,5 @@ func AttachFormHandlers(app *echo.Echo) {
 
 	// Login-Signup
 	app.POST("/forms/signup", HandleSignUp)
+	app.POST("/forms/login", HandleLogIn)
 }

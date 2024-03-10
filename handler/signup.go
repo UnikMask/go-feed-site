@@ -14,8 +14,8 @@ func HandleSignUp(c echo.Context) error {
 	err := c.Bind(&u)
 	if err != nil {
 		log.Printf("Signup binding error: %s", err)
-		return render(c, components.InputError([]string{
-			"Failed to sign up - some informations are invalid."}))
+		return render(c, components.InputError(
+			"Some informations are invalid."))
 	}
 
 	// Verify Content
@@ -26,18 +26,41 @@ func HandleSignUp(c echo.Context) error {
 	messages = append(messages, GetMessages(NameVerifiers, u.FirstName)...)
 	messages = append(messages, GetMessages(NameVerifiers, u.LastName)...)
 	if len(messages) != 0 {
-		return render(c, components.InputError([]string{
-			"You have " + fmt.Sprint(len(messages)) + " errors in your form!"}))
+		return render(c, components.InputError(
+			"You have " + fmt.Sprint(len(messages)) + " errors in your form!"))
 	}
 
 	// Hash password
 	err = auth.SignUp(u)
 	if err != nil {
 		log.Printf("Error during user signup: %s", err.Error())
-		return render(c, components.InputError([]string{
-			"Internal Server Error Occured - please try again later."}))
+		return render(c, components.InternalServerErrorTemplate)
 	}
 	auth.SetAuthCookie(c, auth.CreateJwtToken(u))
 	c.Response().Header().Set("HX-Redirect", "/")
+	return nil
+}
+
+func HandleLogIn(c echo.Context) error {
+	u := auth.User{}
+	err := c.Bind(&u)
+	if err != nil {
+		log.Printf("Login binding error: %v", err)
+	}
+
+	if len(u.Email) == 0 || len(u.Password) == 0 {
+		return render(c, components.InputError("Please complete all fields."))
+	}
+
+	ok, err := auth.LogIn(u.Email, u.Password)
+	if err != nil {
+		log.Printf("Error during user login: %s", err.Error())
+		return render(c, components.InternalServerErrorTemplate)
+	}
+    if !ok {
+        return render(c, components.InputError("Email or password incorrect!"))
+    }
+    auth.SetAuthCookie(c, auth.CreateJwtToken(u))
+    c.Response().Header().Set("HX-Redirect", "/")
 	return nil
 }
