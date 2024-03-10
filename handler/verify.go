@@ -16,7 +16,7 @@ type Verification struct {
 }
 
 var (
-	passwordRegex     *regexp.Regexp = compileRegex("^[a-zA-Z0-9#?!@$ %^&*-;:,.\\(\\)\\[\\]]?$")
+	passwordRegex     *regexp.Regexp = compileRegex("^[a-zA-Z0-9#?!@$ %^&*-;:,\\.\\(\\)\\[\\]]*$")
 	usernameRegex     *regexp.Regexp = compileRegex("^[a-zA-Z0-9_]*$")
 	PasswordVerifiers                = []Verification{
 		{checkTooShort(8), "Password must not have less than 8 characters!"},
