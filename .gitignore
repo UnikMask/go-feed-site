@@ -2,3 +2,4 @@
 assets/css/tailwind.css
 bin/*
 app.db
+.env

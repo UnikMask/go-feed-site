@@ -1,8 +1,10 @@
 run: build
+	@. ./.env; \
 	./bin/main
 
 run_late_restart: build
 	@sleep 1.5
+	@. ./.env; \
 	./bin/main
 
 build:
