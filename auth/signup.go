@@ -20,3 +20,17 @@ func SignUp(u User) error {
 	}
 	return nil
 }
+
+func LogIn(email string, password string) (bool, error) {
+	var username string
+	var password_hash string
+	found, err := databases.QueryRow("databases/fetch_user.sql",
+		[]any{email}, []any{&username, &password_hash})
+	if err != nil {
+		return false, err
+	}
+	if !found || bcrypt.CompareHashAndPassword([]byte(password_hash), []byte(password)) != nil {
+		return false, err
+	}
+	return true, nil
+}

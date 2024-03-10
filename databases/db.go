@@ -58,6 +58,27 @@ func ReadFile(fp string) (string, error) {
 	return string(contents), nil
 }
 
+func QueryRow(fp string, stmtArgs []any, scanElements []any) (bool, error) {
+	contents, err := ReadFile(fp)
+	if err != nil {
+		return false, err
+	}
+
+	stmt, err := db.Prepare(contents)
+	if err != nil {
+		return false, err
+	}
+	query := stmt.QueryRow(stmtArgs...)
+	err = query.Scan(scanElements...)
+	if err == sql.ErrNoRows {
+		return false, nil
+	}
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}
+
 func OpenDatabase(fp string) error {
 	var err error
 	db, err = sql.Open("sqlite3", fp)
