@@ -14,7 +14,7 @@ func SignUp(u User) error {
 		return err
 	}
 
-	err = databases.ExecutePreparedStatement("databases.sign_up.sql", u.Username, u.Email, u.FirstName, u.LastName, string(pass[:]))
+	err = databases.ExecutePreparedStatement("databases/sign_up.sql", u.Username, u.Email, u.FirstName, u.LastName, string(pass[:]))
 	if err != nil {
 		return err
 	}

@@ -57,7 +57,7 @@ func CreateJwtToken(u User) UserSession {
 			ID:        os.Getenv("HOST_ID"),
 			Audience:  []string{os.Getenv("HOST_SITE")},
 		}}
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS512, claims)
 	return UserSession{token, duration}
 }
 
@@ -78,8 +78,9 @@ func SetAuthCookie(c echo.Context, u UserSession) {
 	}
 	cookie := new(http.Cookie)
 	cookie.Name = USER_SESSION_NAME
-	cookie.Value = ss
 	cookie.Expires = u.ExpiresAt
+	cookie.Value = ss
+	cookie.Path = "/"
 	c.SetCookie(cookie)
 }
 
