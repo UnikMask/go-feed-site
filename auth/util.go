@@ -6,6 +6,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/UnikMask/gofeedsite/databases"
+	"github.com/UnikMask/gofeedsite/model"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
 )
@@ -14,7 +16,7 @@ const (
 	ISSUER            string        = "go-basic-feed-site"
 	USER_SESSION_NAME string        = "user_session"
 	TOKEN_DURATION    time.Duration = 24 * time.Hour
-    CTX_USER_AUTH string = "UserAuth"
+	CTX_USER_AUTH     string        = "UserAuth"
 )
 
 type UserForm struct {
@@ -41,6 +43,24 @@ func (u UserAuth) GetUserAuth() UserAuth {
 
 func (u UserForm) GetUserAuth() UserAuth {
 	return UserAuth{Email: u.Email}
+}
+
+func (u *UserAuth) GetUser() (model.User, bool) {
+    if u == nil {
+        return model.User{}, false
+    }
+	res := model.User{}
+	found, err := databases.QueryRow("databases/fetch_user_info.sql",
+		[]any{u.Email},
+		[]any{&res.Username, &res.Email, &res.FirstName, &res.LastName})
+	if err != nil {
+		log.Printf("Error fetching user: %v", err)
+		return model.User{}, false
+	}
+	if !found {
+		return model.User{}, false
+	}
+	return res, true
 }
 
 type UserSession struct {

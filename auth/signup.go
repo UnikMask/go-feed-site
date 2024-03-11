@@ -24,7 +24,7 @@ func SignUp(u UserForm) error {
 func LogIn(email string, password string) (bool, error) {
 	var username string
 	var password_hash string
-	found, err := databases.QueryRow("databases/fetch_user.sql",
+	found, err := databases.QueryRow("databases/fetch_user_creds.sql",
 		[]any{email}, []any{&username, &password_hash})
 	if err != nil {
 		return false, err
