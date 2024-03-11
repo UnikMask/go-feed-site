@@ -2,19 +2,22 @@ package mainpage
 
 import "github.com/UnikMask/gofeedsite/view/layout"
 import "github.com/UnikMask/gofeedsite/view/components"
+import "github.com/UnikMask/gofeedsite/model"
+
+const API_FORMS = "/api/forms/"
 
 templ LogInCard() {
-	@components.FormCard("/forms/login") {
+	@components.FormCard(model.ENDPOINT_FORMS + "/login") {
 		@components.Input("email", "email", "Email", false)
 		@components.Input("password", "password", "Password", false)
 		@components.SubmitButton(components.BUTTON_TYPE_SECONDARY) {
-			Log In 
+			Log In
 		}
 	}
 }
 
 templ SignUpCard() {
-	@components.FormCard("/forms/signup") {
+	@components.FormCard(model.ENDPOINT_FORMS + "/signup") {
 		@components.Input("username", "username", "Username", true)
 		@components.Input("email", "email", "Email", true)
 		@components.Input("password", "password", "Password", true)
@@ -23,7 +26,7 @@ templ SignUpCard() {
 			@components.Input("text", "lastname", "Last Name", true)
 		</div>
 		@components.SubmitButton(components.BUTTON_TYPE_SECONDARY) {
-			Sign Up 
+			Sign Up
 		}
 	}
 }

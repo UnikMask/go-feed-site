@@ -1,5 +1,7 @@
 package components
 
+import "github.com/UnikMask/gofeedsite/model"
+
 var InternalServerErrorTemplate = InputErrors([]string{
 	"Internal Server Error occured - please try again later"})
 
@@ -11,7 +13,7 @@ templ InputErrors(messages []string) {
 }
 
 templ InputError(msg string) {
-    @InputErrors([]string{msg})
+	@InputErrors([]string{msg})
 }
 
 templ Input(typ string, name string, display string, verify bool) {
@@ -22,9 +24,10 @@ templ Input(typ string, name string, display string, verify bool) {
 				class="bg-gray-200 dark:bg-slate-900 text-gray-800 dark:text-slate-100 p-1 b-1"
 				type={ typ }
 				name={ name }
-				hx-post={ "/forms/verify/" + name }
+				hx-post={ model.ENDPOINT_FORMS_VERIFY + "/" + name }
 				hx-trigger="input changed delay:500ms"
-				hx-target={ "#" + name + "-results" }
+				hx-target={ "#" +
+        name + "-results" }
 				placeholder={ "Enter " + display + " ..." }
 			/>
 			<div id={ name + "-results" }><br/></div>
@@ -48,6 +51,6 @@ templ FormCard(endpoint string) {
 				{ children... }
 			</form>
 		</div>
-        <div></div>
+		<div></div>
 	</div>
 }

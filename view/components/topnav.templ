@@ -6,7 +6,7 @@ import "github.com/UnikMask/gofeedsite/auth"
 var buttonCommonClasses string = "text-lg pt-1 pb-1 pr-3 pl-3 rounded-lg transition-colors duration-200"
 
 templ UserCard(u model.User) {
-	@ActionButton("/handler/user/actions", BUTTON_TYPE_BORDERED) {
+	@ActionButton(model.ENDPOINT_USERS+"/actions", BUTTON_TYPE_BORDERED) {
 		<div class="flex flex-row">
 			{ u.Username }
 		</div>

@@ -5,14 +5,15 @@ import (
 )
 
 func AttachFormHandlers(app *echo.Echo) {
+	endpoint := app.Group("api/forms")
 	// Forms Verification
-	app.POST("/forms/verify/username", attachFormsVerifyType("username", UsernameVerifiers))
-	app.POST("/forms/verify/email", attachFormsVerifyType("email", EmailVerifiers))
-	app.POST("/forms/verify/password", attachFormsVerifyType("password", PasswordVerifiers))
-	app.POST("/forms/verify/firstname", attachFormsVerifyType("firstname", NameVerifiers))
-	app.POST("/forms/verify/lastname", attachFormsVerifyType("lastname", NameVerifiers))
+	endpoint.POST("/verify/username", attachFormsVerifyType("username", UsernameVerifiers))
+	endpoint.POST("/verify/email", attachFormsVerifyType("email", EmailVerifiers))
+	endpoint.POST("/verify/password", attachFormsVerifyType("password", PasswordVerifiers))
+	endpoint.POST("/verify/firstname", attachFormsVerifyType("firstname", NameVerifiers))
+	endpoint.POST("/verify/lastname", attachFormsVerifyType("lastname", NameVerifiers))
 
 	// Login-Signup
-	app.POST("/forms/signup", HandleSignUp)
-	app.POST("/forms/login", HandleLogIn)
+	endpoint.POST("/signup", HandleSignUp)
+	endpoint.POST("/login", HandleLogIn)
 }
