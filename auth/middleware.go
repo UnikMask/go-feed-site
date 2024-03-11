@@ -2,6 +2,8 @@ package auth
 
 import (
 	"context"
+	"net/http"
+
 	"github.com/labstack/echo/v4"
 )
 
@@ -19,4 +21,15 @@ func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 
 		return next(c)
 	}
+}
+
+func StrictAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
+    return func(c echo.Context) error {
+        _, ok := c.Request().Context().Value(CTX_USER_AUTH).(UserAuth)
+        if !ok {
+            c.Response().WriteHeader(http.StatusNoContent)
+            return nil
+        }
+        return next(c)
+    }
 }
