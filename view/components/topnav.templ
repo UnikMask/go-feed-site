@@ -1,25 +1,16 @@
 package components
 
+import "github.com/UnikMask/gofeedsite/model"
+import "github.com/UnikMask/gofeedsite/auth"
+
 var buttonCommonClasses string = "text-lg pt-1 pb-1 pr-3 pl-3 rounded-lg transition-colors duration-200"
 
-templ LogInButton() {
-	<form hx-boost="true" action="/login" hx-push-url="true" method="get">
-		<input
-			type="submit"
-			value="Log In"
-			class={ buttonCommonClasses + " bg-blue-600 hover:bg-blue-800 dark:hover:bg-blue-400" }
-		/>
-	</form>
-}
-
-templ SignUpButton() {
-	<form hx-boost="true" action="/login" hx-push-url="true" method="get">
-		<input
-			type="submit"
-			value="Sign Up"
-			class={ buttonCommonClasses + " bg-gray-400 hover:bg-gray-600 dark:bg-slate-400 dark:hover:bg-slate-200" }
-		/>
-	</form>
+templ UserCard(u model.User) {
+	@ActionButton("/handler/user/actions", BUTTON_TYPE_BORDERED) {
+		<div class="flex flex-row">
+			{ u.Username }
+		</div>
+	}
 }
 
 templ TopNav() {
@@ -41,8 +32,18 @@ templ TopNav() {
 		</div>
 		<div class="flex-none ml-5 mr-5 flex flex-col justify-center">
 			<div class="flex flex-row gap-4">
-                @LinkButton("/login", BUTTON_TYPE_PRIMARY) { Log In }
-                @LinkButton("/login", BUTTON_TYPE_SECONDARY) { Sign Up }
+				if uAuth, ok := ctx.Value(auth.CTX_USER_AUTH).(auth.UserAuth); ok {
+					if user, ok := uAuth.GetUser(); ok {
+						@UserCard(user)
+					}
+				} else {
+					@LinkButton("/login", BUTTON_TYPE_PRIMARY) {
+						Log In
+					}
+					@LinkButton("/login", BUTTON_TYPE_SECONDARY) {
+						Sign Up
+					}
+				}
 			</div>
 		</div>
 	</header>

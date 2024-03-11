@@ -1,55 +1,54 @@
 package components
 
 const (
-    BUTTON_STYLE_LG string = "text-lg pt-1 pb-1 pr-3 pl-3 rounded-lg cursor-pointer"
+	BUTTON_STYLE_LG string = "text-lg pt-1 pb-1 pr-3 pl-3 rounded-lg cursor-pointer"
 
-    BUTTON_TYPE_PRIMARY_TW = "bg-blue-600 hover:bg-blue-800 dark:hover:bg-blue-400"
-    BUTTON_TYPE_SECONDARY_TW = `bg-gray-200 hover:bg-gray-400 dark:bg-slate-900 hover:dark:bg-slate-600`
-    BUTTON_TYPE_BORDERED_TW = `border-gray-200 hover:border-gray-400 dark:border-slate-900 hover:dark:border-slate-600`
-    
-    BUTTON_TYPE_NONE int = 0
-    BUTTON_TYPE_PRIMARY int = 1
-    BUTTON_TYPE_SECONDARY int = 2
-    BUTTON_TYPE_BORDERED int = 3
+	BUTTON_TYPE_PRIMARY_TW   = "bg-blue-600 hover:bg-blue-800 dark:hover:bg-blue-400"
+	BUTTON_TYPE_SECONDARY_TW = `bg-gray-200 hover:bg-gray-400 dark:bg-slate-900 hover:dark:bg-slate-600`
+	BUTTON_TYPE_BORDERED_TW  = `border-2 border-gray-200 hover:border-gray-400 dark:border-slate-900
+hover:dark:border-slate-600`
+
+	BUTTON_TYPE_NONE      int = 0
+	BUTTON_TYPE_PRIMARY   int = 1
+	BUTTON_TYPE_SECONDARY int = 2
+	BUTTON_TYPE_BORDERED  int = 3
 )
 
 func getStyleType(buttonType int) string {
-    switch (buttonType) {
-        case BUTTON_TYPE_PRIMARY:
-            return BUTTON_TYPE_PRIMARY_TW
-        case BUTTON_TYPE_SECONDARY:
-            return BUTTON_TYPE_SECONDARY_TW
-        case BUTTON_TYPE_BORDERED:
-            return BUTTON_TYPE_BORDERED_TW
-        default:
-            return  ""
-    }
+	switch buttonType {
+	case BUTTON_TYPE_PRIMARY:
+		return BUTTON_TYPE_PRIMARY_TW
+	case BUTTON_TYPE_SECONDARY:
+		return BUTTON_TYPE_SECONDARY_TW
+	case BUTTON_TYPE_BORDERED:
+		return BUTTON_TYPE_BORDERED_TW
+	default:
+		return ""
+	}
 }
 
 templ SubmitButton(buttonType int) {
 	<div class="flex flex-row gap-2">
-		<button
-			class={ BUTTON_STYLE_LG + " " + getStyleType(buttonType)  }
-			type="submit"
-		>{ children... }</button>
+		<button class={ BUTTON_STYLE_LG + " " + getStyleType(buttonType) } type="submit">
+			{ children... }
+		</button>
 	</div>
 }
 
 templ LinkButton(link string, buttonType int) {
 	<form hx-boost="true" action={ templ.URL(link) } hx-push-url="true" method="get">
-		<button
-			type="submit"
-			class={ BUTTON_STYLE_LG + " "+ getStyleType(buttonType) }
-		>{ children... }</button>
+		<button type="submit" class={ BUTTON_STYLE_LG + " " + getStyleType(buttonType) }>
+			{ children... }
+		</button>
 	</form>
-    
 }
 
 templ ActionButton(action string, buttonType int) {
-    <button 
-        class={ BUTTON_STYLE_LG + " " + getStyleType(buttonType) } 
-        action={ templ.EscapeString(action) }
-        hx-target="next div" >
-        {children...}
-    </button>
+	<button
+		class={ BUTTON_STYLE_LG + " " + getStyleType(buttonType) }
+		action={ templ.EscapeString(action) }
+		hx-target="next div"
+	>
+		{ children... }
+	</button>
 }
