@@ -81,6 +81,7 @@ func SetAuthCookie(c echo.Context, u UserSession) {
 	cookie.Expires = u.ExpiresAt
 	cookie.Value = ss
 	cookie.Path = "/"
+    cookie.HttpOnly = true
 	c.SetCookie(cookie)
 }
 
