@@ -40,6 +40,18 @@ templ Input(typ string, name string, display string, verify bool) {
 	</div>
 }
 
+templ FormCard(endpoint string) {
+	<div class="flex flex-col p-4 gap-4">
+		<div>
+			<form hx-post={ endpoint } hx-target="next div">
+				<br/>
+				{ children... }
+			</form>
+		</div>
+        <div></div>
+	</div>
+}
+
 templ SubmitButton(name string, tailwind string) {
 	<div class="flex flex-row gap-2">
 		<button

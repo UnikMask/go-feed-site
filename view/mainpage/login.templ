@@ -6,20 +6,8 @@ import "github.com/UnikMask/gofeedsite/view/components"
 var submitButtonStyle string = `bg-gray-200 hover:bg-gray-400 dark:bg-slate-900
 hover:dark:bg-slate-600`
 
-templ FormCard(endpoint string) {
-	<div class="flex flex-col p-4 gap-4">
-		<div>
-			<form hx-post={ endpoint } hx-target="next div">
-				<br/>
-				{ children... }
-			</form>
-		</div>
-        <div></div>
-	</div>
-}
-
 templ LogInCard() {
-	@FormCard("/forms/login") {
+	@components.FormCard("/forms/login") {
 		@components.Input("email", "email", "Email", false)
 		@components.Input("password", "password", "Password", false)
 		@components.SubmitButton("Log In", submitButtonStyle)
@@ -27,7 +15,7 @@ templ LogInCard() {
 }
 
 templ SignUpCard() {
-	@FormCard("/forms/signup") {
+	@components.FormCard("/forms/signup") {
 		@components.Input("username", "username", "Username", true)
 		@components.Input("email", "email", "Email", true)
 		@components.Input("password", "password", "Password", true)
