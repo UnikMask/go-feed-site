@@ -13,7 +13,7 @@ func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		}
 		u, ok := ValidateJwtToken(ss.Value)
 		if ok {
-			ctx := context.WithValue(c.Request().Context(), "UserAuth", u)
+			ctx := context.WithValue(c.Request().Context(), CTX_USER_AUTH, u)
 			c.SetRequest(c.Request().WithContext(ctx))
 		}
 

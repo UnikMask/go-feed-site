@@ -14,6 +14,7 @@ const (
 	ISSUER            string        = "go-basic-feed-site"
 	USER_SESSION_NAME string        = "user_session"
 	TOKEN_DURATION    time.Duration = 24 * time.Hour
+    CTX_USER_AUTH string = "UserAuth"
 )
 
 type UserForm struct {
