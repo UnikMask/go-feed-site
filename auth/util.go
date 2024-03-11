@@ -26,22 +26,20 @@ type UserForm struct {
 }
 
 type UserAuth struct {
-
-    Email string `json:"email"`
+	Email string `json:"email"`
 }
 
-
 type BearerClaims struct {
-    UserAuth
+	UserAuth
 	jwt.RegisteredClaims
 }
 
-func (u UserAuth) GetUserAuth() (UserAuth) {
-    return u
+func (u UserAuth) GetUserAuth() UserAuth {
+	return u
 }
 
-func (u UserForm) GetUserAuth() (UserAuth) {
-    return UserAuth{Email: u.Email}
+func (u UserForm) GetUserAuth() UserAuth {
+	return UserAuth{Email: u.Email}
 }
 
 type UserSession struct {
@@ -53,19 +51,19 @@ func ValidateJwtToken(ss string) (UserAuth, bool) {
 	token, err := jwt.ParseWithClaims(ss, &BearerClaims{}, keyFunc)
 	if err != nil {
 		return UserAuth{}, false
-	} 
-    claims, ok := token.Claims.(*BearerClaims)
-    if !ok {
-        return UserAuth{}, false
-    }
-    return claims.GetUserAuth(), true
+	}
+	claims, ok := token.Claims.(*BearerClaims)
+	if !ok {
+		return UserAuth{}, false
+	}
+	return claims.GetUserAuth(), true
 }
 
 func CreateJwtToken(u UserAuth) UserSession {
 	duration := time.Now().Add(TOKEN_DURATION)
 	claims := BearerClaims{
-        UserAuth: u,
-        RegisteredClaims: jwt.RegisteredClaims{
+		UserAuth: u,
+		RegisteredClaims: jwt.RegisteredClaims{
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			ExpiresAt: jwt.NewNumericDate(duration),
 			NotBefore: jwt.NewNumericDate(time.Now()),
@@ -98,7 +96,7 @@ func SetAuthCookie(c echo.Context, u UserSession) {
 	cookie.Expires = u.ExpiresAt
 	cookie.Value = ss
 	cookie.Path = "/"
-    cookie.HttpOnly = true
+	cookie.HttpOnly = true
 	c.SetCookie(cookie)
 }
 

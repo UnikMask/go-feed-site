@@ -27,7 +27,7 @@ func HandleSignUp(c echo.Context) error {
 	messages = append(messages, GetMessages(NameVerifiers, u.LastName)...)
 	if len(messages) != 0 {
 		return render(c, components.InputError(
-			"You have " + fmt.Sprint(len(messages)) + " errors in your form!"))
+			"You have "+fmt.Sprint(len(messages))+" errors in your form!"))
 	}
 
 	// Hash password
@@ -57,10 +57,10 @@ func HandleLogIn(c echo.Context) error {
 		log.Printf("Error during user login: %s", err.Error())
 		return render(c, components.InternalServerErrorTemplate)
 	}
-    if !ok {
-        return render(c, components.InputError("Email or password incorrect!"))
-    }
-    auth.SetAuthCookie(c, auth.CreateJwtToken(u.GetUserAuth()))
-    c.Response().Header().Set("HX-Redirect", "/")
+	if !ok {
+		return render(c, components.InputError("Email or password incorrect!"))
+	}
+	auth.SetAuthCookie(c, auth.CreateJwtToken(u.GetUserAuth()))
+	c.Response().Header().Set("HX-Redirect", "/")
 	return nil
 }
