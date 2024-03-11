@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"log"
 
 	"github.com/UnikMask/gofeedsite/auth"
@@ -13,8 +12,6 @@ import (
 func main() {
 	app := echo.New()
 
-	userHandler := handler.UserHandler{}
-
 	err := databases.OpenDatabase("app.db")
 	if err != nil {
 		log.Fatalf("Failed to open database: %s", err.Error())
@@ -25,22 +22,12 @@ func main() {
 		log.Fatalf("Failed to start up database: %s", err.Error())
 	}
 
-	app.Use(withUser)
 	app.Use(auth.AuthMiddleware)
 	app.Static("/assets", "assets")
 	app.GET("/", handler.HandleMainPageShow)
 	app.GET("/login", handler.HandleLoginPageShow)
-	app.GET("/user", userHandler.HandleUserShow)
 	handler.AttachFormHandlers(app)
 	app.Start(":3000")
 
 	databases.CloseDatabase()
-}
-
-func withUser(next echo.HandlerFunc) echo.HandlerFunc {
-	return func(c echo.Context) error {
-		ctx := context.WithValue(c.Request().Context(), "user", "invalid@outlook.gg")
-		c.SetRequest(c.Request().WithContext(ctx))
-		return next(c)
-	}
 }
