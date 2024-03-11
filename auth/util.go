@@ -64,7 +64,8 @@ func ValidateJwtToken(ss string) (UserAuth, bool) {
 func CreateJwtToken(u UserAuth) UserSession {
 	duration := time.Now().Add(TOKEN_DURATION)
 	claims := BearerClaims{
-		RegisteredClaims: jwt.RegisteredClaims{
+        UserAuth: u,
+        RegisteredClaims: jwt.RegisteredClaims{
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			ExpiresAt: jwt.NewNumericDate(duration),
 			NotBefore: jwt.NewNumericDate(time.Now()),
