@@ -3,14 +3,11 @@ package mainpage
 import "github.com/UnikMask/gofeedsite/view/layout"
 import "github.com/UnikMask/gofeedsite/view/components"
 
-var submitButtonStyle string = `bg-gray-200 hover:bg-gray-400 dark:bg-slate-900
-hover:dark:bg-slate-600`
-
 templ LogInCard() {
 	@components.FormCard("/forms/login") {
 		@components.Input("email", "email", "Email", false)
 		@components.Input("password", "password", "Password", false)
-		@components.SubmitButton("Log In", submitButtonStyle)
+		@components.SubmitButton(components.BUTTON_TYPE_SECONDARY) { Log In }
 	}
 }
 
@@ -23,7 +20,7 @@ templ SignUpCard() {
 			@components.Input("text", "firstname", "First Name", true)
 			@components.Input("text", "lastname", "Last Name", true)
 		</div>
-		@components.SubmitButton("Sign Up", submitButtonStyle)
+		@components.SubmitButton(components.BUTTON_TYPE_SECONDARY) { Sign Up }
 	}
 }
 
