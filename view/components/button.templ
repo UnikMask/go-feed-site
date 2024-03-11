@@ -42,11 +42,12 @@ templ LinkButton(link string, buttonType int) {
 	</form>
 }
 
-templ ActionButton(action string, buttonType int) {
+templ ActionButton(action string, buttonType int, hxTarget string, hxSwap string) {
 	<button
 		class={ BUTTON_STYLE_LG + " " + getStyleType(buttonType) }
 		hx-get={ templ.EscapeString(action) }
-		hx-target="next div"
+		hx-target={ hxTarget }
+        hx-swap={ hxSwap }
 	>
 		{ children... }
 	</button>

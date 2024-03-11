@@ -1,0 +1,23 @@
+package user
+
+import "github.com/UnikMask/gofeedsite/view/components"
+import "github.com/UnikMask/gofeedsite/model"
+import "github.com/UnikMask/gofeedsite/auth"
+
+templ UserActions() {
+    if user, ok := ctx.Value(auth.CTX_USER_AUTH).(auth.UserAuth).GetUser(); ok {
+        @components.UserCard(user, model.ENDPOINT_USERS+"/hide-actions") {
+            @components.Dropdown() {
+                <div>
+                    <a href={ model.ENDPOINT_USERS + "/logout" }>Log Out</a>
+                </div>
+            }
+        }
+    }
+}
+
+templ UserActionsHidden() {
+    if user, ok := ctx.Value(auth.CTX_USER_AUTH).(auth.UserAuth).GetUser(); ok {
+        @components.UserCard(user, model.ENDPOINT_USERS + "/actions")
+    }
+}

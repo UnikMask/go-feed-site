@@ -26,6 +26,7 @@ func main() {
 	app.Static("/assets", "assets")
 	app.GET("/", handler.HandleMainPageShow)
 	app.GET("/login", handler.HandleLoginPageShow)
+    handler.AttachUserHandlers(app)
 	handler.AttachFormHandlers(app)
 	app.Start(":3000")
 

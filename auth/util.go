@@ -45,10 +45,7 @@ func (u UserForm) GetUserAuth() UserAuth {
 	return UserAuth{Email: u.Email}
 }
 
-func (u *UserAuth) GetUser() (model.User, bool) {
-    if u == nil {
-        return model.User{}, false
-    }
+func (u UserAuth) GetUser() (model.User, bool) {
 	res := model.User{}
 	found, err := databases.QueryRow("databases/fetch_user_info.sql",
 		[]any{u.Email},

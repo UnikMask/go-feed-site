@@ -5,46 +5,59 @@ import "github.com/UnikMask/gofeedsite/auth"
 
 var buttonCommonClasses string = "text-lg pt-1 pb-1 pr-3 pl-3 rounded-lg transition-colors duration-200"
 
-templ UserCard(u model.User) {
-	@ActionButton(model.ENDPOINT_USERS+"/actions", BUTTON_TYPE_BORDERED) {
-		<div class="flex flex-row">
-			{ u.Username }
+templ RequiredTailwindClasses() {
+	<div class="text-lg pt-1 pb-1 pr-3 pl-3 rounded-lg transition-colors duration-200 mt-2 mr-2"></div>
+}
+
+templ UserCard(u model.User, endpoint string) {
+	<div id="user-card" class="mt-2 mr-2 flex-auto">
+		<div class="relative float-right">
+			@ActionButton(endpoint, BUTTON_TYPE_BORDERED, "#user-card", "outerHTML") {
+				<div class="flex flex-row">
+					{ u.Username }
+				</div>
+			}
 		</div>
-	}
+        <div class="relative clear-both mt-1">
+		{ children... }
+        </div>
+	</div>
 }
 
 templ TopNav() {
 	<header
-		class="flex flex-row justify-evenly bg-white dark:bg-slate-800 dark:border-gray-400 border-gray-600 h-14 border-b-2 "
+		class="flex flex-row justify-center bg-white dark:bg-slate-800 dark:border-gray-400 border-gray-600 h-14 border-b-2 "
 	>
-		<form class="ml-5 mr-5 flex flex-col justify-center" hx-boost="true" action="/" hx-push-url="true" method="get">
-			<input type="submit" value="Basic Web App" class="text-2xl text-bold text-center"/>
+		<form class="ml-5 mr-5 flex-auto flex flex-col justify-center" hx-boost="true" action="/" hx-push-url="true" method="get">
+            <div class="flex flex-row">
+                <input type="submit" value="Basic Web App" class="text-2xl text-bold text-left"/>
+            </div>
 		</form>
-		<div class="ml-5 mr-5 flex-grow flex flex-col justify-center">
+		<div class="ml-5 mr-5 flex flex-auto flex-col justify-center">
 			<div class="flex flex-row justify-center">
 				<input
-					class="rounded-lg h-8 w-1/2 border-2 border-gray-600 bg-gray-200 dark:text-slate-400 dark:bg-slate-900"
+					class="rounded-lg h-8 w-full border-2 border-gray-600 bg-gray-200 dark:text-slate-400 dark:bg-slate-900"
 					type="text"
 					name="search"
 					placeholder="Search User..."
 				/>
 			</div>
 		</div>
-		<div class="flex-none ml-5 mr-5 flex flex-col justify-center">
-			<div class="flex flex-row gap-4">
-				if uAuth, ok := ctx.Value(auth.CTX_USER_AUTH).(auth.UserAuth); ok {
-					if user, ok := uAuth.GetUser(); ok {
-						@UserCard(user)
-					}
-				} else {
+		if uAuth, ok := ctx.Value(auth.CTX_USER_AUTH).(auth.UserAuth); ok {
+            if user, ok := uAuth.GetUser(); ok {
+                @UserCard(user, model.ENDPOINT_USERS+"/actions")
+            }
+		} else {
+			<div class="flex-auto ml-5 mr-5 flex flex-col justify-center">
+				<div class="flex flex-row gap-4">
 					@LinkButton("/login", BUTTON_TYPE_PRIMARY) {
 						Log In
 					}
 					@LinkButton("/login", BUTTON_TYPE_SECONDARY) {
 						Sign Up
 					}
-				}
+				</div>
 			</div>
-		</div>
+		}
 	</header>
 }
