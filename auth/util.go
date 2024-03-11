@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"context"
 	"log"
 	"net/http"
 	"os"
@@ -17,7 +16,7 @@ const (
 	TOKEN_DURATION    time.Duration = 24 * time.Hour
 )
 
-type User struct {
+type UserForm struct {
 	Id        int
 	Username  string `form:"username"`
 	Email     string `form:"email"`
@@ -26,8 +25,23 @@ type User struct {
 	LastName  string `form:"lastname"`
 }
 
+type UserAuth struct {
+
+    Email string `json:"email"`
+}
+
+
 type BearerClaims struct {
+    UserAuth
 	jwt.RegisteredClaims
+}
+
+func (u UserAuth) GetUserAuth() (UserAuth) {
+    return u
+}
+
+func (u UserForm) GetUserAuth() (UserAuth) {
+    return UserAuth{Email: u.Email}
 }
 
 type UserSession struct {
@@ -35,17 +49,19 @@ type UserSession struct {
 	ExpiresAt time.Time
 }
 
-func GetContextJwtToken(c context.Context) *jwt.Token {
-	unparsedToken := c.Value(USER_SESSION_NAME).(string)
-	token, err := jwt.ParseWithClaims(unparsedToken, &BearerClaims{}, keyFunc)
+func ValidateJwtToken(ss string) (UserAuth, bool) {
+	token, err := jwt.ParseWithClaims(ss, &BearerClaims{}, keyFunc)
 	if err != nil {
-		log.Printf("Error Parsing JWT Token: %s", err.Error())
-		return nil
-	}
-	return token
+		return UserAuth{}, false
+	} 
+    claims, ok := token.Claims.(*BearerClaims)
+    if !ok {
+        return UserAuth{}, false
+    }
+    return claims.GetUserAuth(), true
 }
 
-func CreateJwtToken(u User) UserSession {
+func CreateJwtToken(u UserAuth) UserSession {
 	duration := time.Now().Add(TOKEN_DURATION)
 	claims := BearerClaims{
 		RegisteredClaims: jwt.RegisteredClaims{

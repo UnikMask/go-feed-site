@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/UnikMask/gofeedsite/auth"
 	"github.com/UnikMask/gofeedsite/databases"
 	"github.com/UnikMask/gofeedsite/handler"
 	"github.com/labstack/echo/v4"
@@ -25,7 +26,7 @@ func main() {
 	}
 
 	app.Use(withUser)
-	app.Use(cookieMiddleware)
+	app.Use(auth.AuthMiddleware)
 	app.Static("/assets", "assets")
 	app.GET("/", handler.HandleMainPageShow)
 	app.GET("/login", handler.HandleLoginPageShow)
@@ -34,17 +35,6 @@ func main() {
 	app.Start(":3000")
 
 	databases.CloseDatabase()
-}
-
-func cookieMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
-	return func(c echo.Context) error {
-		ctx := c.Request().Context()
-		for _, cookie := range c.Cookies() {
-			ctx = context.WithValue(ctx, cookie.Name, cookie.Value)
-		}
-		c.SetRequest(c.Request().WithContext(ctx))
-		return next(c)
-	}
 }
 
 func withUser(next echo.HandlerFunc) echo.HandlerFunc {

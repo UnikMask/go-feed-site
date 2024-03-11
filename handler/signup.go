@@ -10,7 +10,7 @@ import (
 )
 
 func HandleSignUp(c echo.Context) error {
-	u := auth.User{}
+	u := auth.UserForm{}
 	err := c.Bind(&u)
 	if err != nil {
 		log.Printf("Signup binding error: %s", err)
@@ -36,13 +36,13 @@ func HandleSignUp(c echo.Context) error {
 		log.Printf("Error during user signup: %s", err.Error())
 		return render(c, components.InternalServerErrorTemplate)
 	}
-	auth.SetAuthCookie(c, auth.CreateJwtToken(u))
+	auth.SetAuthCookie(c, auth.CreateJwtToken(u.GetUserAuth()))
 	c.Response().Header().Set("HX-Redirect", "/")
 	return nil
 }
 
 func HandleLogIn(c echo.Context) error {
-	u := auth.User{}
+	u := auth.UserForm{}
 	err := c.Bind(&u)
 	if err != nil {
 		log.Printf("Login binding error: %v", err)
@@ -60,7 +60,7 @@ func HandleLogIn(c echo.Context) error {
     if !ok {
         return render(c, components.InputError("Email or password incorrect!"))
     }
-    auth.SetAuthCookie(c, auth.CreateJwtToken(u))
+    auth.SetAuthCookie(c, auth.CreateJwtToken(u.GetUserAuth()))
     c.Response().Header().Set("HX-Redirect", "/")
 	return nil
 }
