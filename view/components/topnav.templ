@@ -28,7 +28,7 @@ templ TopNav() {
                     <div
                         class="h-9 w-32 rounded-full bg-gray-400 dark:bg-slate-700 animate-pulse"
                         hx-get={ model.ENDPOINT_USERS + "/hide-actions" }
-                        hx-trigger="click"
+                        hx-trigger="load"
                         hx-swap="outerHTML"
                     ></div>
                 </div>
