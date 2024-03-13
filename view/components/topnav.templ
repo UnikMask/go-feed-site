@@ -7,11 +7,11 @@ templ TopNav() {
 	<header
 		class="flex flex-row justify-evenly bg-white dark:bg-slate-800 dark:border-gray-400 border-gray-600 h-14 border-b-2 "
 	>
-		<form class="mx-5 flex-1 flex flex-col justify-center" hx-boost="true" action="/" hx-push-url="true" method="get">
-			<div class="flex flex-row">
-				<input type="submit" value="Basic Web App" class="text-2xl text-bold text-left"/>
-			</div>
-		</form>
+		<div class="mx-5 flex-1 flex flex-col justify-center">
+			@LinkButton("/", BUTTON_TYPE_NONE, BUTTON_SIZE_2XL) {
+				Basic Web App
+			}
+		</div>
 		<div class="mx-5 flex flex-1 flex-col justify-center">
 			<div class="flex flex-row justify-center">
 				<input
@@ -24,14 +24,14 @@ templ TopNav() {
 		</div>
 		if _, ok := ctx.Value(auth.CTX_USER_AUTH).(auth.UserAuth); ok {
 			<div class="flex-1 mt-2 mx-5">
-                <div class="relative float-right">
-                    <div
-                        class="h-9 w-32 rounded-full bg-gray-400 dark:bg-slate-700 animate-pulse"
-                        hx-get={ model.ENDPOINT_USERS + "/hide-actions" }
-                        hx-trigger="load"
-                        hx-swap="outerHTML"
-                    ></div>
-                </div>
+				<div class="relative float-right">
+					<div
+						class="h-9 w-32 rounded-full bg-gray-400 dark:bg-slate-700 animate-pulse"
+						hx-get={ model.ENDPOINT_USERS + "/hide-actions" }
+						hx-trigger="load"
+						hx-swap="outerHTML"
+					></div>
+				</div>
 			</div>
 		} else {
 			<div class="flex-1 mx-5 flex flex-col justify-center">
