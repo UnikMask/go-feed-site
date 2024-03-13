@@ -9,16 +9,16 @@ import (
 
 func AttachUserHandlers(app *echo.Echo) {
 	endpoint := app.Group(model.ENDPOINT_USERS)
-    endpoint.Use(auth.StrictAuthMiddleware)
-    endpoint.GET("/actions", HandleUserActions)
-    endpoint.GET("/hide-actions", HandleUserActionsHide)
+	endpoint.Use(auth.StrictAuthMiddleware)
+	endpoint.GET("/actions", HandleUserActions)
+	endpoint.GET("/hide-actions", HandleUserActionsHide)
+	endpoint.GET("/logout", HandleLogOut)
 }
 
 func HandleUserActions(c echo.Context) error {
-    return render(c, user.UserActions())
+	return render(c, user.UserActions())
 }
 
-
 func HandleUserActionsHide(c echo.Context) error {
-    return render(c, user.UserActionsHidden())
+	return render(c, user.UserActionsHidden())
 }
