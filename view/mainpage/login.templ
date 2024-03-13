@@ -10,7 +10,7 @@ templ LogInCard() {
 	@components.FormCard(model.ENDPOINT_FORMS + "/login") {
 		@components.Input("email", "email", "Email", false)
 		@components.Input("password", "password", "Password", false)
-		@components.SubmitButton(components.BUTTON_TYPE_SECONDARY) {
+		@components.SubmitButton(components.BUTTON_TYPE_SECONDARY, components.BUTTON_SIZE_LG) {
 			Log In
 		}
 	}
@@ -25,7 +25,7 @@ templ SignUpCard() {
 			@components.Input("text", "firstname", "First Name", true)
 			@components.Input("text", "lastname", "Last Name", true)
 		</div>
-		@components.SubmitButton(components.BUTTON_TYPE_SECONDARY) {
+		@components.SubmitButton(components.BUTTON_TYPE_SECONDARY, components.BUTTON_SIZE_LG) {
 			Sign Up
 		}
 	}

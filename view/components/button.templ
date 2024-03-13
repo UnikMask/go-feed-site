@@ -1,11 +1,15 @@
 package components
 
 const (
-	BUTTON_STYLE_LG string = "text-lg py-1 px-3 rounded-lg cursor-pointer transition-colors duration-200"
+	BUTTON_STYLE_LG  string = "text-lg py-1 px-3 rounded-lg cursor-pointer transition-colors duration-200"
+	BUTTON_STYLE_2XL string = "text-2xl text-bold py-1 px-3 rounded-lg cursor-pointer transition-colors duration-200"
 
 	BUTTON_TYPE_PRIMARY_TW   = "bg-blue-600 hover:bg-blue-800 dark:hover:bg-blue-400"
 	BUTTON_TYPE_SECONDARY_TW = `bg-gray-200 hover:bg-gray-400 dark:bg-slate-900 hover:dark:bg-slate-600`
 	BUTTON_TYPE_BORDERED_TW  = `border-2 border-gray-600 dark:border-gray-400`
+
+	BUTTON_SIZE_LG  int = 0
+	BUTTON_SIZE_2XL int = 1
 
 	BUTTON_TYPE_NONE      int = 0
 	BUTTON_TYPE_PRIMARY   int = 1
@@ -26,28 +30,37 @@ func getStyleType(buttonType int) string {
 	}
 }
 
-templ SubmitButton(buttonType int) {
+func getSize(buttonSize int) string {
+	switch buttonSize {
+	case BUTTON_SIZE_LG:
+		return BUTTON_STYLE_LG
+	default:
+		return BUTTON_STYLE_2XL
+	}
+}
+
+templ SubmitButton(buttonType int, buttonSize int) {
 	<div class="flex flex-row gap-2">
-		<button class={ BUTTON_STYLE_LG + " " + getStyleType(buttonType) } type="submit">
+		<button class={ getSize(buttonSize) + " " + getStyleType(buttonType) } type="submit">
 			{ children... }
 		</button>
 	</div>
 }
 
-templ LinkButton(link string, buttonType int) {
+templ LinkButton(link string, buttonType int, buttonSize int) {
 	<form hx-boost="true" action={ templ.URL(link) } hx-push-url="true" method="get">
-		<button type="submit" class={ BUTTON_STYLE_LG + " " + getStyleType(buttonType) }>
+		<button type="submit" class={ getSize(buttonSize) + " " + getStyleType(buttonType) }>
 			{ children... }
 		</button>
 	</form>
 }
 
-templ ActionButton(action string, buttonType int, hxTarget string, hxSwap string) {
+templ ActionButton(action string, buttonType int, buttonSize int, hxTarget string, hxSwap string) {
 	<button
-		class={ BUTTON_STYLE_LG + " " + getStyleType(buttonType) }
+		class={ getSize(buttonSize) + " " + getStyleType(buttonType) }
 		hx-get={ templ.EscapeString(action) }
 		hx-target={ hxTarget }
-        hx-swap={ hxSwap }
+		hx-swap={ hxSwap }
 	>
 		{ children... }
 	</button>

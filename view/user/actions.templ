@@ -7,7 +7,7 @@ import "github.com/UnikMask/gofeedsite/auth"
 
 templ UserCard(u model.User, endpoint string) {
 	<div id="user-card">
-        @components.ActionButton(endpoint, components.BUTTON_TYPE_BORDERED, "closest div", "outerHTML") {
+        @components.ActionButton(endpoint, components.BUTTON_TYPE_BORDERED, components.BUTTON_SIZE_LG, "closest div", "outerHTML") {
             <div class="flex flex-row">
                 { u.Username }
             </div>
