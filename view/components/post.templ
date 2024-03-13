@@ -1,0 +1,22 @@
+package components
+
+import "github.com/UnikMask/gofeedsite/model"
+
+templ PostCard(p model.Post) {
+	<div class="w-[512px] divide-y gap-2 divide-gray-200 dark:divide-slate-700 bg-gray-white dark:bg-slate-800">
+		<div>
+			{ p.Username }
+		</div>
+		<div>
+			{ p.Content }
+		</div>
+		<div class="flex flex-row justify-start">
+			@ActionButton("/none", BUTTON_TYPE_NONE, BUTTON_SIZE_2XL, "this", "innerHTML") {
+				<span class="material-symbols-outlined"></span>
+			}
+			@ActionButton("/none", BUTTON_TYPE_NONE, BUTTON_SIZE_2XL, "this", "innerHTML") {
+				<span class="material-symbols-outlined"></span>
+			}
+		</div>
+	</div>
+}
