@@ -1,0 +1,22 @@
+package layout
+
+import "github.com/UnikMask/gofeedsite/posts"
+
+templ PostError(message string) {
+	<div class="text-xl text-center">
+		{ message }
+	</div>
+}
+
+templ PostPage(id int) {
+	<div class="h-full flex flex-col">
+		switch _, stat := posts.GetPost(id); stat {
+			case posts.GET_POST_STATUS_OK:
+				@PostError("This post was found - just not displayed")
+			case posts.GET_POST_STATUS_NOT_FOUND:
+				@PostError("This post was not found.")
+			default:
+				@PostError("Internal Server error occured - please try again later.")
+		}
+	</div>
+}
