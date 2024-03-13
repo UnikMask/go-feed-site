@@ -4,32 +4,40 @@ import "github.com/UnikMask/gofeedsite/view/components"
 import "github.com/UnikMask/gofeedsite/model"
 import "github.com/UnikMask/gofeedsite/auth"
 
-
 templ UserCard(u model.User, endpoint string) {
 	<div id="user-card">
-        @components.ActionButton(endpoint, components.BUTTON_TYPE_BORDERED, components.BUTTON_SIZE_LG, "closest div", "outerHTML") {
-            <div class="flex flex-row">
-                { u.Username }
-            </div>
-        }
-        { children... }
+		<div class="relative float-right">
+			@components.ActionButton(endpoint, components.BUTTON_TYPE_BORDERED, components.BUTTON_SIZE_LG, "#user-card",
+				"outerHTML") {
+				<div class="flex flex-row">
+					{ u.Username }
+				</div>
+			}
+		</div>
+		<div class="clear-both relative float-right">
+			{ children... }
+		</div>
 	</div>
 }
 
 templ UserActions() {
-    if user, ok := ctx.Value(auth.CTX_USER_AUTH).(auth.UserAuth).GetUser(); ok {
-        @UserCard(user, model.ENDPOINT_USERS+"/hide-actions") {
-            @components.Dropdown() {
-                <div>
-                    <a href={ model.ENDPOINT_USERS + "/logout" }>Log Out</a>
-                </div>
-            }
-        }
-    }
+	if user, ok := ctx.Value(auth.CTX_USER_AUTH).(auth.UserAuth).GetUser(); ok {
+		@UserCard(user, model.ENDPOINT_USERS+"/hide-actions") {
+			<div class="right-0 mt-1 p-2 rounded-md bg-white dark:bg-slate-800 shadow-lg ring-1 ring-opacity-10 ring-black">
+				@components.ActionButton(model.ENDPOINT_USERS+"/logout", components.BUTTON_TYPE_NONE, components.BUTTON_SIZE_MD,
+					"this", "innerHTML") {
+					<div class="flex flex-row text-nowrap">
+						<div class="material-symbols-outlined">more_vert</div>
+						Log Out
+					</div>
+				}
+			</div>
+		}
+	}
 }
 
 templ UserActionsHidden() {
-    if user, ok := ctx.Value(auth.CTX_USER_AUTH).(auth.UserAuth).GetUser(); ok {
-        @UserCard(user, model.ENDPOINT_USERS + "/actions")
-    }
+	if user, ok := ctx.Value(auth.CTX_USER_AUTH).(auth.UserAuth).GetUser(); ok {
+		@UserCard(user, model.ENDPOINT_USERS+"/actions")
+	}
 }

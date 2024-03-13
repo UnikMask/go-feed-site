@@ -24,14 +24,12 @@ templ TopNav() {
 		</div>
 		if _, ok := ctx.Value(auth.CTX_USER_AUTH).(auth.UserAuth); ok {
 			<div class="flex-1 mt-2 mx-5">
-				<div class="relative float-right">
-					<div
-						class="h-9 w-32 rounded-full bg-gray-400 dark:bg-slate-700 animate-pulse"
-						hx-get={ model.ENDPOINT_USERS + "/hide-actions" }
-						hx-trigger="load"
-						hx-swap="outerHTML"
-					></div>
-				</div>
+				<div
+					class="relative float-right h-9 w-32 rounded-full bg-gray-400 dark:bg-slate-700 animate-pulse"
+					hx-get={ model.ENDPOINT_USERS + "/hide-actions" }
+					hx-trigger="load"
+					hx-swap="outerHTML"
+				></div>
 			</div>
 		} else {
 			<div class="flex-1 mx-5 flex flex-col justify-center">
