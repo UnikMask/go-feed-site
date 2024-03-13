@@ -3,6 +3,8 @@ package handler
 import (
 	"fmt"
 	"log"
+	"net/http"
+	"time"
 
 	"github.com/UnikMask/gofeedsite/auth"
 	"github.com/UnikMask/gofeedsite/view/components"
@@ -61,6 +63,17 @@ func HandleLogIn(c echo.Context) error {
 		return render(c, components.InputError("Email or password incorrect!"))
 	}
 	auth.SetAuthCookie(c, auth.CreateJwtToken(u.GetUserAuth()))
+	c.Response().Header().Set("HX-Redirect", "/")
+	return nil
+}
+
+func HandleLogOut(c echo.Context) error {
+	cookie := new(http.Cookie)
+	cookie.Expires = time.Unix(0, 0)
+	cookie.Name = auth.USER_SESSION_NAME
+	cookie.Value = ""
+	cookie.Path = "/"
+	c.SetCookie(cookie)
 	c.Response().Header().Set("HX-Redirect", "/")
 	return nil
 }
