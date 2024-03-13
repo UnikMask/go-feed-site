@@ -21,7 +21,9 @@ CREATE TABLE IF NOT EXISTS Follows (
 );
 
 CREATE TABLE IF NOT EXISTS Posts (
-    contents varchar(3000)
+    contents varchar(3000),
+    user_id int,
+    FOREIGN KEY(user_id) REFERENCES Users(ROWID)
 );
 
 CREATE TABLE IF NOT EXISTS Likes (
