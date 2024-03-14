@@ -28,6 +28,7 @@ func main() {
 	app.GET("/login", handler.HandleLoginPageShow)
     handler.AttachUserHandlers(app)
 	handler.AttachFormHandlers(app)
+    handler.AttachPostHandlers(app)
 	app.Start(":3000")
 
 	databases.CloseDatabase()

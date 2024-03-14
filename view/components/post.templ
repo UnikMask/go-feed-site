@@ -1,22 +1,32 @@
 package components
 
 import "github.com/UnikMask/gofeedsite/model"
+import "github.com/UnikMask/gofeedsite/posts"
 
 templ PostCard(p model.Post) {
-	<div class="w-[512px] divide-y gap-2 divide-gray-200 dark:divide-slate-700 bg-gray-white dark:bg-slate-800">
-		<div>
-			{ p.Username }
-		</div>
-		<div>
-			{ p.Content }
-		</div>
-		<div class="flex flex-row justify-start">
-			@ActionButton("/none", BUTTON_TYPE_NONE, BUTTON_SIZE_2XL, "this", "innerHTML") {
-				<span class="material-symbols-outlined"></span>
-			}
-			@ActionButton("/none", BUTTON_TYPE_NONE, BUTTON_SIZE_2XL, "this", "innerHTML") {
-				<span class="material-symbols-outlined"></span>
-			}
+	<div class="w-[40rem] rounded-lg text-lg bg-white dark:bg-slate-800">
+		<div class="flex flex-row gap-2">
+            <div class="text-4xl my-2 mx-2">
+                <div class="material-symbols-outlined">account_circle</div>
+            </div>
+			<div class="flex-1 flex flex-col gap-2">
+				<div class="text-bold my-1">
+					{ p.Username }
+				</div>
+				<div class="my-1">
+					{ p.Content }
+				</div>
+				<div class="flex flex-col justify-center">
+					<div class="flex flex-row justify-start mt-2">
+						@ActionButton(posts.GetEndpoint(p, "/like"), BUTTON_TYPE_NONE, BUTTON_SIZE_2XL, "this", "innerHTML") {
+							<span class="material-symbols-outlined">favorite</span>
+						}
+						@ActionButton(posts.GetEndpoint(p, "/share"), BUTTON_TYPE_NONE, BUTTON_SIZE_2XL, "this", "innerHTML") {
+							<span class="material-symbols-outlined">share</span>
+						}
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 }

@@ -1,6 +1,7 @@
 package posts
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/UnikMask/gofeedsite/databases"
@@ -25,4 +26,8 @@ func GetPost(id int) (model.Post, int) {
 		return model.Post{}, GET_POST_STATUS_NOT_FOUND
 	}
 	return p, GET_POST_STATUS_OK
+}
+
+func GetEndpoint(p model.Post, endpoint string) string {
+    return model.ENDPOINT_POSTS + "/" + fmt.Sprintf("%d", p.Id) + endpoint;
 }
