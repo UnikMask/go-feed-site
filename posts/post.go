@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"time"
 
 	"github.com/UnikMask/gofeedsite/databases"
 	"github.com/UnikMask/gofeedsite/model"
@@ -41,4 +42,20 @@ func GetLikesString(p model.Post) string {
 		i++
 	}
 	return fmt.Sprintf("%s%s", strconv.FormatFloat(likes, 'f', -1, 64), magnitudes[i])
+}
+
+func GetDatePostedString(p model.Post) string {
+	t := time.Now().Sub(p.PostedAt)
+	if t.Seconds() < 60 {
+		return fmt.Sprintf("%.0f", t.Seconds()) + "s"
+	} else if t.Minutes() < 60 {
+		return fmt.Sprintf("%.0f", t.Minutes()) + "m"
+	} else if t.Hours() < 24 {
+		return fmt.Sprintf("%.0f", t.Hours()) + "h"
+	} else if t.Hours() < 24*7 {
+		return fmt.Sprintf("%.0f", t.Hours()/7) + "d"
+	} else if p.PostedAt.Year() == time.Now().Year() {
+		return p.PostedAt.Format("02/01")
+	}
+	return p.PostedAt.Format("02/01/2006")
 }

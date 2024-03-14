@@ -34,8 +34,13 @@ templ PostCard(p model.Post) {
 				<div class="rounded-full bg-gray-400 dark:bg-slate-700 w-12 h-12 animate-pulse"></div>
 			</div>
 			<div class="flex-1 flex flex-col gap-2 mr-4">
-				<div class="text-bold my-1">
-					{ p.Username }
+				<div class="flex flex-row gap-2 my-1">
+					<div class="text-bold">
+						{ p.Username }
+					</div>
+					<div class="text-gray-400 dark:text-slate-700">
+						{ posts.GetDatePostedString(p) }
+					</div>
 				</div>
 				<div class="my-1">
 					{ p.Content }
