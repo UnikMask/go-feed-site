@@ -3,13 +3,37 @@ package components
 import "github.com/UnikMask/gofeedsite/model"
 import "github.com/UnikMask/gofeedsite/posts"
 
+templ LikeButton(p model.Post) {
+	<div class="flex flex-row">
+		@ActionButton(posts.GetEndpoint(p, "/like"), BUTTON_TYPE_NONE, BUTTON_SIZE_LG, "this",
+			"innerHTML") {
+			<span class="material-symbols-outlined">favorite</span>
+		}
+		<div class="text-gray-400 dark:text-slate-600">
+			{ posts.GetLikesString(p) } likes
+		</div>
+	</div>
+}
+
+templ ShareButton(p model.Post) {
+	<div class="flex flex-row">
+		@ActionButton(posts.GetEndpoint(p, "/share"), BUTTON_TYPE_NONE, BUTTON_SIZE_LG, "this",
+			"innerHTML") {
+			<span class="material-symbols-outlined">share</span>
+		}
+		<div class="text-gray-400 dark:text-slate-600">
+			Share
+		</div>
+	</div>
+}
+
 templ PostCard(p model.Post) {
 	<div class="w-[40rem] rounded-lg text-lg bg-white dark:bg-slate-800">
 		<div class="flex flex-row gap-2">
-            <div class="text-4xl my-2 mx-2">
-                <div class="material-symbols-outlined">account_circle</div>
-            </div>
-			<div class="flex-1 flex flex-col gap-2">
+			<div class="my-2 mx-2">
+				<div class="rounded-full bg-gray-400 dark:bg-slate-700 w-12 h-12 animate-pulse"></div>
+			</div>
+			<div class="flex-1 flex flex-col gap-2 mr-4">
 				<div class="text-bold my-1">
 					{ p.Username }
 				</div>
@@ -18,22 +42,8 @@ templ PostCard(p model.Post) {
 				</div>
 				<div class="flex flex-col justify-center">
 					<div class="flex flex-row justify-start mt-2 gap-2">
-                        <div class="flex flex-row">
-                            @ActionButton(posts.GetEndpoint(p, "/like"), BUTTON_TYPE_NONE, BUTTON_SIZE_LG, "this", "innerHTML") {
-                                <span class="material-symbols-outlined">favorite</span>
-                            }
-                            <div class="text-gray-400 dark:text-slate-600">
-                                { posts.GetLikesString(p) } likes
-                            </div>
-                        </div>
-                        <div class="flex flex-row">
-						@ActionButton(posts.GetEndpoint(p, "/share"), BUTTON_TYPE_NONE, BUTTON_SIZE_LG, "this", "innerHTML") {
-							<span class="material-symbols-outlined">share</span>
-						}
-                            <div class="text-gray-400 dark:text-slate-600">
-                                Share
-                            </div>
-                        </div>
+						@LikeButton(p)
+						@ShareButton(p)
 					</div>
 				</div>
 			</div>
