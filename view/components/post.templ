@@ -17,11 +17,16 @@ templ PostCard(p model.Post) {
 					{ p.Content }
 				</div>
 				<div class="flex flex-col justify-center">
-					<div class="flex flex-row justify-start mt-2">
-						@ActionButton(posts.GetEndpoint(p, "/like"), BUTTON_TYPE_NONE, BUTTON_SIZE_2XL, "this", "innerHTML") {
-							<span class="material-symbols-outlined">favorite</span>
-						}
-						@ActionButton(posts.GetEndpoint(p, "/share"), BUTTON_TYPE_NONE, BUTTON_SIZE_2XL, "this", "innerHTML") {
+					<div class="flex flex-row justify-start mt-2 gap-2">
+                        <div class="flex flex-row">
+                            @ActionButton(posts.GetEndpoint(p, "/like"), BUTTON_TYPE_NONE, BUTTON_SIZE_LG, "this", "innerHTML") {
+                                <span class="material-symbols-outlined">favorite</span>
+                            }
+                            <div class="text-gray-400 dark:text-slate-600">
+                                { posts.GetLikesString(p) }
+                            </div>
+                        </div>
+						@ActionButton(posts.GetEndpoint(p, "/share"), BUTTON_TYPE_NONE, BUTTON_SIZE_LG, "this", "innerHTML") {
 							<span class="material-symbols-outlined">share</span>
 						}
 					</div>
