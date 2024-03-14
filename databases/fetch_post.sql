@@ -3,7 +3,8 @@ SELECT
     u.ROWID,
     u.username,
     p.contents,
-    COUNT(l.post_id)
+    p.posted_at,
+    COUNT(l.post_id) AS likes
 FROM
     Posts AS p
 JOIN Users AS u

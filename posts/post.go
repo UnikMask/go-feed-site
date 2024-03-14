@@ -17,7 +17,7 @@ const (
 
 func GetPost(id int) (model.Post, int) {
 	p := model.Post{}
-	args := []any{&p.Id, &p.UserId, &p.Username, &p.Content, &p.Likes}
+	args := []any{&p.Id, &p.UserId, &p.Username, &p.Content, &p.PostedAt, &p.Likes}
 
 	ok, err := databases.QueryRow("databases/fetch_post.sql", []any{id}, args)
 	if err != nil {
@@ -30,15 +30,15 @@ func GetPost(id int) (model.Post, int) {
 }
 
 func GetEndpoint(p model.Post, endpoint string) string {
-    return model.ENDPOINT_POSTS + "/" + fmt.Sprintf("%d", p.Id) + endpoint;
+	return model.ENDPOINT_POSTS + "/" + fmt.Sprintf("%d", p.Id) + endpoint
 }
 
 func GetLikesString(p model.Post) string {
-    magnitudes := []string{"", "K", "M", "B", "Q"}
-    likes, i := float64(p.Likes), 0
-    for likes >= 1000 {
-        likes /= 1000
-        i++
-    }
-    return fmt.Sprintf("%s%s", strconv.FormatFloat(likes, 'f', -1, 64), magnitudes[i])
+	magnitudes := []string{"", "K", "M", "B", "Q"}
+	likes, i := float64(p.Likes), 0
+	for likes >= 1000 {
+		likes /= 1000
+		i++
+	}
+	return fmt.Sprintf("%s%s", strconv.FormatFloat(likes, 'f', -1, 64), magnitudes[i])
 }
