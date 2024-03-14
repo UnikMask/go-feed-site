@@ -23,12 +23,17 @@ templ PostCard(p model.Post) {
                                 <span class="material-symbols-outlined">favorite</span>
                             }
                             <div class="text-gray-400 dark:text-slate-600">
-                                { posts.GetLikesString(p) }
+                                { posts.GetLikesString(p) } likes
                             </div>
                         </div>
+                        <div class="flex flex-row">
 						@ActionButton(posts.GetEndpoint(p, "/share"), BUTTON_TYPE_NONE, BUTTON_SIZE_LG, "this", "innerHTML") {
 							<span class="material-symbols-outlined">share</span>
 						}
+                            <div class="text-gray-400 dark:text-slate-600">
+                                Share
+                            </div>
+                        </div>
 					</div>
 				</div>
 			</div>
