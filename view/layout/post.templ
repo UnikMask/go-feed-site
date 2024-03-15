@@ -2,6 +2,7 @@ package layout
 
 import "github.com/UnikMask/gofeedsite/posts"
 import "github.com/UnikMask/gofeedsite/view/components"
+import "github.com/UnikMask/gofeedsite/auth"
 
 templ PostError(message string) {
 	<div class="text-xl text-center">
@@ -14,7 +15,7 @@ templ PostPage(id int) {
 		@components.TopNav()
 		<div class="h-full flex flex-row justify-center">
 			<div class="flex flex-col justify-center">
-				switch post, stat := posts.GetPost(id, 0); stat {
+				switch post, stat := posts.GetPost(id, auth.GetUserFromContextOrNone(ctx).Id); stat {
 					case posts.GET_POST_STATUS_OK:
 						@components.PostCard(post)
 					case posts.GET_POST_STATUS_NOT_FOUND:

@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -47,6 +48,14 @@ func GetUser(u model.UserAuth) (model.User, bool) {
 		return model.User{Id: 0}, false
 	}
 	return res, true
+}
+
+func GetUserFromContextOrNone(c context.Context) model.UserAuth {
+    u_auth, ok := c.Value(CTX_USER_AUTH).(model.UserAuth)
+    if !ok {
+        return model.UserAuth{Id: 0}
+    }
+    return u_auth
 }
 
 type UserSession struct {
