@@ -32,9 +32,9 @@ func (p Post) GetDatePostedString() string {
 	return p.PostedAt.Format("02/01/2006")
 }
 
-func (p Post) GetLikesString() string {
+func GetLikesString(amount int) string {
 	magnitudes := []string{"", "K", "M", "B", "Q"}
-	likes, i := float64(p.Likes), 0
+	likes, i := float64(amount), 0
 	for likes >= 1000 {
 		likes /= 1000
 		i++
