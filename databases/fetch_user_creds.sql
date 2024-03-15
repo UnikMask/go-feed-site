@@ -1,5 +1,5 @@
 SELECT
-    username,
+    ROWID,
     password_hash
 FROM
     Users

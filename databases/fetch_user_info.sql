@@ -1,9 +1,9 @@
 SELECT
-    username,
-    email,
-    first_name,
-    last_name
+    u.username,
+    u.email,
+    u.first_name,
+    u.last_name
 FROM
-    Users
+    Users AS u
 WHERE
-    email = ?;
+    u.ROWID = ?;

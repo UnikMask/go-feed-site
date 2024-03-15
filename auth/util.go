@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -28,34 +29,22 @@ type UserForm struct {
 	LastName  string `form:"lastname"`
 }
 
-type UserAuth struct {
-	Email string `json:"email"`
-}
-
 type BearerClaims struct {
-	UserAuth
+	model.UserAuth
 	jwt.RegisteredClaims
 }
 
-func (u UserAuth) GetUserAuth() UserAuth {
-	return u
-}
-
-func (u UserForm) GetUserAuth() UserAuth {
-	return UserAuth{Email: u.Email}
-}
-
-func (u UserAuth) GetUser() (model.User, bool) {
-	res := model.User{}
+func GetUser(u model.UserAuth) (model.User, bool) {
+	res := model.User{Id: u.Id}
 	found, err := databases.QueryRow("databases/fetch_user_info.sql",
-		[]any{u.Email},
+		[]any{u.Id},
 		[]any{&res.Username, &res.Email, &res.FirstName, &res.LastName})
 	if err != nil {
 		log.Printf("Error fetching user: %v", err)
-		return model.User{}, false
+		return model.User{Id: 0}, false
 	}
 	if !found {
-		return model.User{}, false
+		return model.User{Id: 0}, false
 	}
 	return res, true
 }
@@ -65,19 +54,19 @@ type UserSession struct {
 	ExpiresAt time.Time
 }
 
-func ValidateJwtToken(ss string) (UserAuth, bool) {
+func ValidateJwtToken(ss string) (model.UserAuth, bool) {
 	token, err := jwt.ParseWithClaims(ss, &BearerClaims{}, keyFunc)
 	if err != nil {
-		return UserAuth{}, false
+		return model.UserAuth{Id: 0}, false
 	}
 	claims, ok := token.Claims.(*BearerClaims)
 	if !ok {
-		return UserAuth{}, false
+		return model.UserAuth{Id: 0}, false
 	}
 	return claims.GetUserAuth(), true
 }
 
-func CreateJwtToken(u UserAuth) UserSession {
+func CreateJwtToken(u model.UserAuth) UserSession {
 	duration := time.Now().Add(TOKEN_DURATION)
 	claims := BearerClaims{
 		UserAuth: u,
@@ -86,7 +75,7 @@ func CreateJwtToken(u UserAuth) UserSession {
 			ExpiresAt: jwt.NewNumericDate(duration),
 			NotBefore: jwt.NewNumericDate(time.Now()),
 			Issuer:    ISSUER,
-			Subject:   u.Email,
+			Subject:   fmt.Sprintf("%d", u.Id),
 			ID:        os.Getenv("HOST_ID"),
 			Audience:  []string{os.Getenv("HOST_SITE")},
 		}}

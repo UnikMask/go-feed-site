@@ -4,4 +4,6 @@ INSERT INTO Users(
     first_name,
     last_name,
     password_hash
-)VALUES(?, ?, ?, ?, ?);
+) VALUES
+    (?, ?, ?, ?, ?)
+RETURNING ROWID;
