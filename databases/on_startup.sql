@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS Users (
     email varchar,
     first_name varchar,
     last_name varchar,
-    password_hash varchar
+    password_hash varchar,
+    UNIQUE(email)
 );
 
 CREATE TABLE IF NOT EXISTS Sessions (
