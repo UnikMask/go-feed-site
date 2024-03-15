@@ -14,7 +14,7 @@ templ PostPage(id int) {
 		@components.TopNav()
 		<div class="h-full flex flex-row justify-center">
 			<div class="flex flex-col justify-center">
-				switch post, stat := posts.GetPost(id); stat {
+				switch post, stat := posts.GetPost(id, 0); stat {
 					case posts.GET_POST_STATUS_OK:
 						@components.PostCard(post)
 					case posts.GET_POST_STATUS_NOT_FOUND:

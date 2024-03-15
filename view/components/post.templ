@@ -1,23 +1,22 @@
 package components
 
 import "github.com/UnikMask/gofeedsite/model"
-import "github.com/UnikMask/gofeedsite/posts"
 
 templ LikeButton(p model.Post) {
 	<div class="flex flex-row">
-		@ActionButton(posts.GetEndpoint(p, "/like"), BUTTON_TYPE_NONE, BUTTON_SIZE_LG, "this",
+		@ActionButton(p.GetEndpoint("/like"), BUTTON_TYPE_NONE, BUTTON_SIZE_LG, "this",
 			"innerHTML") {
 			<span class="material-symbols-outlined">favorite</span>
 		}
 		<div class="text-gray-400 dark:text-slate-600">
-			{ posts.GetLikesString(p) } likes
+			{ p.GetLikesString() } likes
 		</div>
 	</div>
 }
 
 templ ShareButton(p model.Post) {
 	<div class="flex flex-row">
-		@ActionButton(posts.GetEndpoint(p, "/share"), BUTTON_TYPE_NONE, BUTTON_SIZE_LG, "this",
+		@ActionButton(p.GetEndpoint("/share"), BUTTON_TYPE_NONE, BUTTON_SIZE_LG, "this",
 			"innerHTML") {
 			<span class="material-symbols-outlined">share</span>
 		}
@@ -29,7 +28,7 @@ templ ShareButton(p model.Post) {
 
 templ PostCard(p model.Post) {
 	<div class="w-[40rem] rounded-lg text-lg bg-white dark:bg-slate-800">
-		<div class="flex flex-row gap-2">
+		<div class="flex flex-row">
 			<div class="my-2 mx-2">
 				<div class="rounded-full bg-gray-400 dark:bg-slate-700 w-12 h-12 animate-pulse"></div>
 			</div>
@@ -39,7 +38,7 @@ templ PostCard(p model.Post) {
 						{ p.Username }
 					</div>
 					<div class="text-gray-400 dark:text-slate-700">
-						{ posts.GetDatePostedString(p) }
+						{ p.GetDatePostedString() }
 					</div>
 				</div>
 				<div class="my-1">
