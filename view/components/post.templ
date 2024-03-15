@@ -17,12 +17,12 @@ templ LikeCounter(post_id int, amount int) {
 templ LikeButton(p model.Post) {
 	<div id={ "post-" + fmt.Sprintf("%d", p.Id) + "-like-button" } class="flex flex-row">
 		@ActionButton(p.GetEndpoint("/like"), BUTTON_TYPE_NONE, BUTTON_SIZE_LG, "closest div",
-			"innerHTML") {
-            if p.Liked {
-                <span style="font-variation-settings: 'FILL' 1" class="material-symbols-outlined">favorite</span>
-            } else {
-                <span style="font-variation-settings: 'FILL' 0" class="material-symbols-outlined">favorite</span>
-            }
+			"outerHTML") {
+			if p.Liked {
+				<span style="font-variation-settings: 'FILL' 1" class="material-symbols-outlined">favorite</span>
+			} else {
+				<span style="font-variation-settings: 'FILL' 0" class="material-symbols-outlined">favorite</span>
+			}
 		}
 		@LikeCounter(p.Id, p.Likes)
 	</div>
@@ -31,7 +31,7 @@ templ LikeButton(p model.Post) {
 templ ShareButton(p model.Post) {
 	<div class="flex flex-row">
 		@ActionButton(p.GetEndpoint("/share"), BUTTON_TYPE_NONE, BUTTON_SIZE_LG, "this",
-			"innerHTML") {
+			"outerHTML") {
 			<span class="material-symbols-outlined">share</span>
 		}
 		<div class="text-gray-400 dark:text-slate-600">
@@ -60,7 +60,7 @@ templ PostCard(p model.Post) {
 				</div>
 				<div class="flex flex-col justify-center">
 					<div class="flex flex-row justify-start mt-2 gap-2">
-                        @LikeButton(p)
+						@LikeButton(p)
 						@ShareButton(p)
 					</div>
 				</div>
