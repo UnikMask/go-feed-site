@@ -12,7 +12,7 @@ func AttachUserHandlers(app *echo.Echo) {
 	endpoint.Use(auth.StrictAuthMiddleware)
 	endpoint.GET("/actions", HandleUserActions)
 	endpoint.GET("/hide-actions", HandleUserActionsHide)
-	endpoint.GET("/logout", HandleLogOut)
+	endpoint.POST("/logout", HandleLogOut)
 }
 
 func HandleUserActions(c echo.Context) error {

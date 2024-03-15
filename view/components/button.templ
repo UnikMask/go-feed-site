@@ -62,7 +62,7 @@ templ LinkButton(link string, buttonType int, buttonSize int) {
 templ ActionButton(action string, buttonType int, buttonSize int, hxTarget string, hxSwap string) {
 	<button
 		class={ getSize(buttonSize) + " " + getStyleType(buttonType) }
-		hx-get={ templ.EscapeString(action) }
+		hx-post={ templ.EscapeString(action) }
 		hx-target={ hxTarget }
 		hx-swap={ hxSwap }
 	>
