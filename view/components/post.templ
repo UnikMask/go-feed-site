@@ -5,7 +5,7 @@ import "fmt"
 
 templ LikeButton(p model.Post) {
 	<div id={ "post-" + fmt.Sprintf("%d", p.Id) + "-like-button"} class="flex flex-row">
-		@ActionButton(p.GetEndpoint("/like"), BUTTON_TYPE_NONE, BUTTON_SIZE_LG, "this",
+		@ActionButton(p.GetEndpoint("/like"), BUTTON_TYPE_NONE, BUTTON_SIZE_LG, "closest div",
 			"innerHTML") {
 			<span style="font-variation-settings: 'FILL' 0" class="material-symbols-outlined">favorite</span>
 		}
@@ -17,7 +17,7 @@ templ LikeButton(p model.Post) {
 
 templ UnlikeButton(p model.Post) {
 	<div id={ "post-" + fmt.Sprintf("%d", p.Id) + "-like-button"} class="flex flex-row">
-		@ActionButton(p.GetEndpoint("/like"), BUTTON_TYPE_NONE, BUTTON_SIZE_LG, "this",
+		@ActionButton(p.GetEndpoint("/like"), BUTTON_TYPE_NONE, BUTTON_SIZE_LG, "closest div",
 			"innerHTML") {
 			<span style="font-variation-settings: 'FILL' 1" class="material-symbols-outlined">favorite</span>
 		}
