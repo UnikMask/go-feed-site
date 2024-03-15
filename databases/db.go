@@ -29,7 +29,7 @@ func ExecuteFile(fp string) error {
 	return nil
 }
 
-func ExecutePreparedStatement(fp string, args ...string) error {
+func ExecutePreparedStatement(fp string, args ...any) error {
 	contents, err := ReadFile(fp)
 	if err != nil {
 		return err
