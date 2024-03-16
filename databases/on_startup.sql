@@ -1,4 +1,3 @@
-PRAGMA foreign_keys = ON;
 CREATE TABLE IF NOT EXISTS Users (
     username varchar,
     email varchar,

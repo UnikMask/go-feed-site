@@ -12,7 +12,7 @@ import (
 func main() {
 	app := echo.New()
 
-	err := databases.OpenDatabase("app.db")
+	err := databases.OpenDatabase("file:app.db?cache=shared&_fk=true")
 	if err != nil {
 		log.Fatalf("Failed to open database: %s", err.Error())
 	}
@@ -26,9 +26,9 @@ func main() {
 	app.Static("/assets", "assets")
 	app.GET("/", handler.HandleMainPageShow)
 	app.GET("/login", handler.HandleLoginPageShow)
-    handler.AttachUserHandlers(app)
+	handler.AttachUserHandlers(app)
 	handler.AttachFormHandlers(app)
-    handler.AttachPostHandlers(app)
+	handler.AttachPostHandlers(app)
 	app.Start(":3000")
 
 	databases.CloseDatabase()
