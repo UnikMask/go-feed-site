@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS Users (
     first_name varchar,
     last_name varchar,
     password_hash varchar,
-    UNIQUE(email)
+    UNIQUE(email),
+    PRIMARY KEY(ROWID)
 );
 
 CREATE UNIQUE INDEX IF NOT EXISTS idx_users_email ON Users(email);
@@ -26,7 +27,8 @@ CREATE TABLE IF NOT EXISTS Posts (
     contents varchar(3000),
     user_id int,
     posted_at datetime,
-    FOREIGN KEY(user_id) REFERENCES Users(ROWID) ON DELETE SET NULL
+    FOREIGN KEY(user_id) REFERENCES Users(ROWID) ON DELETE SET NULL,
+    PRIMARY KEY(ROWID)
 );
 
 CREATE TABLE IF NOT EXISTS Likes (
