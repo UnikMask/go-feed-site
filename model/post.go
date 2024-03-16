@@ -25,7 +25,7 @@ func (p Post) GetDatePostedString() string {
 	} else if t.Hours() < 24 {
 		return fmt.Sprintf("%.0f", t.Hours()) + "h"
 	} else if t.Hours() < 24*7 {
-		return fmt.Sprintf("%.0f", t.Hours()/7) + "d"
+		return fmt.Sprintf("%.0f", t.Hours()/24) + "d"
 	} else if p.PostedAt.Year() == time.Now().Year() {
 		return p.PostedAt.Format("02/01")
 	}

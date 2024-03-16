@@ -35,7 +35,7 @@ func LikePost(post model.Post, u model.UserAuth) bool {
 	}
 	err := databases.ExecutePreparedStatement(stmt, u.Id, post.Id)
 	if err != nil {
-		fmt.Printf("Error occured liking post %d as user %d: %v\n", post.Id, u.Id, err)
+		fmt.Printf("Error occured toggling (file = %v) post %d as user %d: %v\n", stmt, post.Id, u.Id, err)
 		return false
 	}
 	return true

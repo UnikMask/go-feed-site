@@ -12,6 +12,7 @@ templ PostError(message string) {
 
 templ PostPage(id int) {
 	@Base() {
+        @components.PostStyles()
 		@components.TopNav()
 		<div class="h-full flex flex-row justify-center">
 			<div class="flex flex-col justify-center">

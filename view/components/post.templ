@@ -3,26 +3,56 @@ package components
 import "github.com/UnikMask/gofeedsite/model"
 import "fmt"
 
+templ PostStyles() {
+    <style>
+        .like-counter {
+            opacity: 1;
+            transition: opacity 200ms ease-in;
+        }
+        .like-counter.htmx-swapping {
+            opacity: 0;
+            transition: opacity 200ms ease-out;
+        }
+        .animate-liked {
+            font-variation-settings: 'FILL' 1;
+        }
+        .animate-liked.htmx-swapping {
+            font-variation-settings: 'FILL' 0;
+            transition: all 200ms ease-out;
+        }
+        .animate-unliked {
+            font-variation-settings: 'FILL' 0;
+        }
+        .animate-unliked.htmx-swapping {
+            font-variation-settings: 'FILL' 1;
+            transition: all 200ms ease-out;
+        }
+    </style>
+}
+
 templ LikeCounter(post_id int, amount int) {
 	<div
 		hx-get={ model.ENDPOINT_POSTS + "/" + fmt.Sprintf("%d", post_id) + "/likes" }
-		hx-swap="outerHTML"
+		hx-swap="outerHTML swap:100ms"
 		hx-trigger="every 5s"
-		class="text-gray-400 dark:text-slate-600"
+		class="text-gray-400 dark:text-slate-600 like-counter"
 	>
 		{ model.GetLikesString(amount) } likes
 	</div>
 }
 
+func GetLikeButtonAnimationClass(liked bool) string {
+    if (liked) {
+        return "animate-liked"
+    } 
+    return "animate-unliked"
+}
+
 templ LikeButton(p model.Post) {
-	<div id={ "post-" + fmt.Sprintf("%d", p.Id) + "-like-button" } class="flex flex-row">
+	<div class={"flex flex-row " + GetLikeButtonAnimationClass(p.Liked)} >
 		@ActionButton(p.GetEndpoint("/like"), BUTTON_TYPE_NONE, BUTTON_SIZE_LG, "closest div",
-			"outerHTML") {
-			if p.Liked {
-				<span style="font-variation-settings: 'FILL' 1" class="material-symbols-outlined">favorite</span>
-			} else {
-				<span style="font-variation-settings: 'FILL' 0" class="material-symbols-outlined">favorite</span>
-			}
+			"outerHTML swap:200ms") {
+				<span class="material-symbols-outlined">favorite</span>
 		}
 		@LikeCounter(p.Id, p.Likes)
 	</div>
