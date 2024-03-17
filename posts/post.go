@@ -16,7 +16,7 @@ const (
 
 func GetPost(post_id int, user_id int) (model.Post, int) {
 	p := model.Post{}
-	args := []any{&p.Id, &p.UserId, &p.Username, &p.Content, &p.PostedAt, &p.Likes, &p.Liked}
+	args := []any{&p.Id, &p.UserId, &p.Username, &p.Content, &p.PostedAt, &p.Likes, &p.Liked, &p.Followed}
 
 	ok, err := databases.QueryRow("databases/fetch_post.sql", []any{post_id, user_id}, args)
 	if err != nil {

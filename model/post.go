@@ -14,6 +14,7 @@ type Post struct {
 	PostedAt time.Time
 	Likes    int
 	Liked    bool
+    Followed bool
 }
 
 func (p Post) GetDatePostedString() string {
