@@ -4,7 +4,7 @@ import "github.com/UnikMask/gofeedsite/model"
 import "fmt"
 
 templ PostStyles() {
-    <style>
+	<style>
         .like-counter {
             opacity: 1;
             transition: opacity 200ms ease-in;
@@ -33,8 +33,8 @@ templ PostStyles() {
 templ LikeCounter(post_id int, amount int) {
 	<div
 		hx-get={ model.ENDPOINT_POSTS + "/" + fmt.Sprintf("%d", post_id) + "/likes" }
-		hx-swap="outerHTML swap:100ms"
-		hx-trigger="every 5s"
+		hx-swap="outerHTML swap:200ms"
+		hx-trigger="revealed delay:5s"
 		class="text-gray-400 dark:text-slate-600 like-counter"
 	>
 		{ model.GetLikesString(amount) } likes
@@ -42,19 +42,28 @@ templ LikeCounter(post_id int, amount int) {
 }
 
 func GetLikeButtonAnimationClass(liked bool) string {
-    if (liked) {
-        return "animate-liked"
-    } 
-    return "animate-unliked"
+	if liked {
+		return "animate-liked"
+	}
+	return "animate-unliked"
 }
 
 templ LikeButton(p model.Post) {
-	<div class={"flex flex-row " + GetLikeButtonAnimationClass(p.Liked)} >
+	<div class={ "flex flex-row " + GetLikeButtonAnimationClass(p.Liked) }>
 		@ActionButton(p.GetEndpoint("/like"), BUTTON_TYPE_NONE, BUTTON_SIZE_LG, "closest div",
 			"outerHTML swap:200ms") {
-				<span class="material-symbols-outlined">favorite</span>
+			<span class="material-symbols-outlined">favorite</span>
 		}
 		@LikeCounter(p.Id, p.Likes)
+	</div>
+}
+
+templ FollowButton(followee_id int) {
+	<div>
+		@ActionButton(model.ENDPOINT_USERS +"/" + fmt.Sprintf("%d", followee_id) + "/follow",
+			BUTTON_TYPE_NONE, BUTTON_SIZE_MD, "closest div", "outerHTML swap:200ms") {
+            <span class="material-symbols-outlined animate-liked ">add_circle</span>
+		}
 	</div>
 }
 
@@ -84,6 +93,7 @@ templ PostCard(p model.Post) {
 					<div class="text-gray-400 dark:text-slate-700">
 						{ p.GetDatePostedString() }
 					</div>
+                    @FollowButton(p.UserId)
 				</div>
 				<div class="my-1">
 					{ p.Content }
