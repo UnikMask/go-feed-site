@@ -15,8 +15,8 @@ import (
 func AttachUserHandlers(app *echo.Echo) {
 	endpoint := app.Group(model.ENDPOINT_USERS)
 	endpoint.Use(auth.StrictAuthMiddleware)
-	endpoint.GET("/actions", HandleUserActions)
-	endpoint.GET("/hide-actions", HandleUserActionsHide)
+	endpoint.POST("/actions", HandleUserActions)
+	endpoint.POST("/hide-actions", HandleUserActionsHide)
 	endpoint.POST("/logout", HandleLogOut)
     endpoint.POST("/:id/follow", HandleUserFollow)
     endpoint.POST("/:id/unfollow", HandleUserUnfollow)
