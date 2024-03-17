@@ -58,11 +58,11 @@ templ LikeButton(p model.Post) {
 	</div>
 }
 
-templ FollowButton(followee_id int) {
-	<div>
+templ FollowButton(followee_id int, followed bool) {
+	<div class={ GetLikeButtonAnimationClass(followed) }>
 		@ActionButton(model.ENDPOINT_USERS +"/" + fmt.Sprintf("%d", followee_id) + "/follow",
 			BUTTON_TYPE_NONE, BUTTON_SIZE_MD, "closest div", "outerHTML swap:200ms") {
-            <span class="material-symbols-outlined animate-liked ">add_circle</span>
+            <span class="material-symbols-outlined" >add_circle</span>
 		}
 	</div>
 }
@@ -93,7 +93,7 @@ templ PostCard(p model.Post) {
 					<div class="text-gray-400 dark:text-slate-700">
 						{ p.GetDatePostedString() }
 					</div>
-                    @FollowButton(p.UserId)
+                    @FollowButton(p.UserId, p.Followed)
 				</div>
 				<div class="my-1">
 					{ p.Content }
