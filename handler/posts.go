@@ -21,6 +21,7 @@ func AttachPostHandlers(app *echo.Echo) {
 	page.GET("/:id", HandlePostPage)
 
 	api := app.Group(model.ENDPOINT_POSTS)
+    api.Use(auth.StrictAuthMiddleware)
 	api.POST("/:id/like", HandleLikePost)
     api.GET("/:id/likes", HandleGetLikes)
 }

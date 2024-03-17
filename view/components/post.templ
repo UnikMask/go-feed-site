@@ -58,9 +58,18 @@ templ LikeButton(p model.Post) {
 	</div>
 }
 
+func GetFollowEndpoint(followee_id int, followed bool) string {
+    base := model.ENDPOINT_USERS + "/" + fmt.Sprintf("%d", followee_id)
+    if (followed) {
+        return base + "/unfollow"
+    } else {
+        return base + "/follow"
+    }
+}
+
 templ FollowButton(followee_id int, followed bool) {
 	<div class={ GetLikeButtonAnimationClass(followed) }>
-		@ActionButton(model.ENDPOINT_USERS +"/" + fmt.Sprintf("%d", followee_id) + "/follow",
+		@ActionButton(GetFollowEndpoint(followee_id, followed),
 			BUTTON_TYPE_NONE, BUTTON_SIZE_MD, "closest div", "outerHTML swap:200ms") {
             <span class="material-symbols-outlined" >add_circle</span>
 		}

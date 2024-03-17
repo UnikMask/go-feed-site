@@ -41,6 +41,19 @@ func LikePost(post model.Post, u model.UserAuth) bool {
 	return true
 }
 
+func FollowUserToggle(follower int, followee int, followed bool) bool {
+    stmt := "databases/follow_user.sql"
+    if followed {
+        stmt = "databases/unfollow_user.sql"
+    }
+    err := databases.ExecutePreparedStatement(stmt, follower, followee)
+    if err != nil {
+        fmt.Printf("Error following/unfolliwng user %d as user %d: %v\n", followee, follower, err)
+        return false;
+    }
+    return true
+}
+
 func GetLikes(post_id int) (int, bool) {
 	likes := 0
 	found, err := databases.QueryRow("databases/get_likes.sql", []any{post_id}, []any{&likes})
