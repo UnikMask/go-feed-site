@@ -51,7 +51,7 @@ func GetLikeButtonAnimationClass(liked bool) string {
 
 templ LikeButton(p model.Post) {
 	<div class={ "flex flex-row " + GetLikeButtonAnimationClass(p.Liked) }>
-		@ActionButton(p.GetEndpoint("/like"), BUTTON_TYPE_NONE, BUTTON_SIZE_LG, "closest div",
+		@ActionButton(p.GetEndpoint("/like"), BUTTON_TYPE_NONE, BUTTON_SIZE_MD, "closest div",
 			"outerHTML swap:200ms") {
 			<span class="material-symbols-outlined">favorite</span>
 		}
@@ -70,22 +70,22 @@ func GetFollowEndpoint(followee_id int, followed bool) string {
 
 templ FollowButton(followee_id int, followed bool) {
     if auth.GetUserFromContextOrNone(ctx).Id != followee_id {
-        <div class={ GetLikeButtonAnimationClass(followed) }>
+        <div class={ "mt-1 " + GetLikeButtonAnimationClass(followed) }>
             @ActionButton(GetFollowEndpoint(followee_id, followed),
-                BUTTON_TYPE_NONE, BUTTON_SIZE_MD, "closest div", "outerHTML swap:200ms") {
-                    <span class="material-symbols-outlined" >add_circle</span>
+                BUTTON_TYPE_NONE, BUTTON_SIZE_SM, "closest div", "outerHTML swap:200ms") {
+                    <div class="material-symbols-outlined" >add_circle</div>
             }
         </div>
     } else {
         <div class="flex flex-col justify-center">
-        <div class="flex-0 px-1 text-bold rounded-full bg-black text-sm text-white dark:bg-white dark:text-slate-800">You</div>
+            <div class="flex-0 px-1 font-bold rounded-full bg-black text-sm text-white dark:bg-white dark:text-slate-800">You</div>
         </div>
     }
 }
 
 templ ShareButton(p model.Post) {
 	<div class="flex flex-row">
-		@ActionButton(p.GetEndpoint("/share"), BUTTON_TYPE_NONE, BUTTON_SIZE_LG, "this",
+		@ActionButton(p.GetEndpoint("/share"), BUTTON_TYPE_NONE, BUTTON_SIZE_MD, "this",
 			"outerHTML") {
 			<span class="material-symbols-outlined">share</span>
 		}
@@ -102,24 +102,20 @@ templ PostCard(p model.Post) {
 				<div class="rounded-full bg-gray-400 dark:bg-slate-700 w-12 h-12 animate-pulse"></div>
 			</div>
 			<div class="flex-1 flex flex-col gap-2 mr-4">
-				<div class="flex flex-row gap-2 my-1">
-					<div class="text-bold">
-						{ p.Username }
-					</div>
-					<div class="text-gray-400 dark:text-slate-700">
-						{ p.GetDatePostedString() }
-					</div>
+                <div class="flex flex-row gap-2 my-1 align-middle">
+                    <div class="font-bold">
+                        { p.Username }
+                    </div>
+                    <div class="text-gray-400 dark:text-slate-700">
+                        { p.GetDatePostedString() }
+                    </div>
                     @FollowButton(p.UserId, p.Followed)
-				</div>
-				<div class="my-1">
-					{ p.Content }
-				</div>
-				<div class="flex flex-col justify-center">
-					<div class="flex flex-row justify-start mt-2 gap-2">
-						@LikeButton(p)
-						@ShareButton(p)
-					</div>
-				</div>
+                </div>
+                { p.Content }
+                <div class="flex flex-row justify-start mt-2 gap-2">
+                    @LikeButton(p)
+                    @ShareButton(p)
+                </div>
 			</div>
 		</div>
 	</div>

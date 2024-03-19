@@ -1,6 +1,7 @@
 package components
 
 const (
+	BUTTON_STYLE_SM  string = "text-sm px-1 rounded-sm cursor-pointer transition-colors duration-200"
 	BUTTON_STYLE_MD  string = "text-md py-0.5 px-2 rounded-md cursor-pointer transition-colors duration-200"
 	BUTTON_STYLE_LG  string = "text-lg py-1 px-3 rounded-lg cursor-pointer transition-colors duration-200"
 	BUTTON_STYLE_2XL string = "text-2xl text-bold py-1 px-3 rounded-lg cursor-pointer transition-colors duration-200"
@@ -9,9 +10,10 @@ const (
 	BUTTON_TYPE_SECONDARY_TW = `bg-gray-200 hover:bg-gray-400 dark:bg-slate-900 hover:dark:bg-slate-600`
 	BUTTON_TYPE_BORDERED_TW  = `border-2 border-gray-600 dark:border-gray-400`
 
-	BUTTON_SIZE_MD  int = 0
-	BUTTON_SIZE_LG  int = 1
-	BUTTON_SIZE_2XL int = 2
+	BUTTON_SIZE_SM  int = 0
+	BUTTON_SIZE_MD  int = 1
+	BUTTON_SIZE_LG  int = 2
+	BUTTON_SIZE_2XL int = 3
 
 	BUTTON_TYPE_NONE      int = 0
 	BUTTON_TYPE_PRIMARY   int = 1
@@ -38,6 +40,8 @@ func getSize(buttonSize int) string {
 		return BUTTON_STYLE_LG
 	case BUTTON_SIZE_2XL:
 		return BUTTON_STYLE_2XL
+    case BUTTON_SIZE_SM:
+        return BUTTON_STYLE_SM
 	default:
 		return BUTTON_STYLE_MD
 	}
