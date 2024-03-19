@@ -23,15 +23,15 @@ templ UserCard(u model.User, endpoint string) {
 templ UserActions() {
 	if user, ok := auth.GetUser(ctx.Value(auth.CTX_USER_AUTH).(model.UserAuth)); ok {
 		@UserCard(user, model.ENDPOINT_USERS+"/hide-actions") {
-			<div class="absolute w-32 right-0 mt-1 p-2 rounded-md bg-white dark:bg-slate-800 shadow-lg ring-1 ring-opacity-10 ring-black">
+            @components.Dropdown("32") {
 				@components.ActionButton(model.ENDPOINT_USERS+"/logout", components.BUTTON_TYPE_NONE, components.BUTTON_SIZE_MD,
 					"this", "innerHTML") {
 					<div class="flex flex-row text-nowrap">
 						<div class="material-symbols-outlined">logout</div>
 						Log Out
 					</div>
-				}
-			</div>
+                }
+            }
 		}
 	}
 }
