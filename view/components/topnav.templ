@@ -23,7 +23,7 @@ templ TopNav() {
 			</div>
 		</div>
 		if _, ok := ctx.Value(auth.CTX_USER_AUTH).(model.UserAuth); ok {
-			<div class="flex-1 mt-2 mx-5">
+			<div class="flex-1 mx-5 flex flex-col justify-center">
 				<div
 					class="relative float-right h-9 w-32 rounded-full bg-gray-400 dark:bg-slate-700 animate-pulse"
 					hx-post={ model.ENDPOINT_USERS + "/hide-actions" }
