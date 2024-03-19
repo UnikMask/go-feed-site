@@ -1,0 +1,9 @@
+package components
+
+templ Dropdown(width string) {
+    <div class="absolute right-0 rounded-md bg-white dark:bg-slate-800 shadow-lg ring-1 ring-opacity-10 ring-black">
+        <div class={"flex flex-col gap-2 my-2 mx-1 w-" + width}>
+            {children...}
+        </div>
+    </div>
+}
