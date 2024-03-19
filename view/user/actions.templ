@@ -31,6 +31,12 @@ templ UserActions() {
 						Log Out
 					</div>
                 }
+                @components.ActionButton("/", components.BUTTON_TYPE_NONE, components.BUTTON_SIZE_MD, "this", "innerHTML") {
+                    <div class="flex flex-row">
+                        <div class="material-symbols-outlined">settings</div>
+                        Settings
+                    </div>
+                }
             }
 		}
 	}
