@@ -16,7 +16,7 @@ func GetPosts(user_id int) ([]model.Post, error) {
 	for hasNext := true; hasNext; {
 		p := model.Post{}
 		hasNext, err = rows.ScanNext(&p.Id, &p.UserId, &p.Username, &p.Content, &p.PostedAt, &p.Likes, &p.Liked, &p.Followed)
-		if err == nil {
+		if hasNext {
 			posts = append(posts, p)
 		}
 	}
