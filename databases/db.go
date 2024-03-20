@@ -79,6 +79,39 @@ func QueryRow(fp string, stmtArgs []any, scanElements []any) (bool, error) {
 	return true, nil
 }
 
+type Rows struct {
+	c *sql.Rows
+}
+
+func (r Rows) ScanNext(writes ...any) (bool, error) {
+	if !r.c.Next() {
+		return false, r.c.Err()
+	}
+	err := r.c.Scan(writes...)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}
+
+func Query(fp string, stmtArgs ...any) (Rows, bool, error) {
+	contents, err := ReadFile(fp)
+	if err != nil {
+		return Rows{}, false, err
+	}
+
+	stmt, err := db.Prepare(contents)
+	if err != nil {
+		return Rows{}, false, err
+	}
+	query, err := stmt.Query(stmtArgs...)
+	if err != nil {
+		return Rows{}, true, nil
+	}
+
+	return Rows{c: query}, true, nil
+}
+
 func OpenDatabase(fp string) error {
 	var err error
 	db, err = sql.Open("sqlite3", fp)
