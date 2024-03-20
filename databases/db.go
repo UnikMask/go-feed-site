@@ -94,22 +94,22 @@ func (r Rows) ScanNext(writes ...any) (bool, error) {
 	return true, nil
 }
 
-func Query(fp string, stmtArgs ...any) (Rows, bool, error) {
+func Query(fp string, stmtArgs ...any) (Rows, error) {
 	contents, err := ReadFile(fp)
 	if err != nil {
-		return Rows{}, false, err
+		return Rows{}, err
 	}
 
 	stmt, err := db.Prepare(contents)
 	if err != nil {
-		return Rows{}, false, err
+		return Rows{}, err
 	}
 	query, err := stmt.Query(stmtArgs...)
 	if err != nil {
-		return Rows{}, true, nil
+		return Rows{}, err
 	}
 
-	return Rows{c: query}, true, nil
+	return Rows{c: query}, nil
 }
 
 func OpenDatabase(fp string) error {
