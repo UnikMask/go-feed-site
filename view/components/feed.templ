@@ -4,20 +4,18 @@ import "github.com/UnikMask/gofeedsite/model"
 import "fmt"
 
 templ FeedPageLoader(page int) {
-    <div hx-get={ model.ENDPOINT_FEED + "?page=" + fmt.Sprintf("%d", page) } 
-         hx-trigger="revealed"
-         hx-swap="outerHTML">
-         <div class="flex flex-row justify-center text-gray-400 dark:text-slate-600">
-            Loading...
-         </div>
-    </div>
+	<div hx-get={ model.ENDPOINT_FEED + "?page=" + fmt.Sprintf("%d", page) } hx-trigger="revealed" hx-swap="outerHTML">
+		<div class="flex flex-row justify-center text-gray-400 dark:text-slate-600">
+			Loading...
+		</div>
+	</div>
 }
 
-templ FeedSegment(page int, more bool, posts []model.Post) {
-    for _, p := range posts {
-        @PostCard(p)
-    }
-    if more {
-        @FeedPageLoader(page + 1)
-    }
+templ FeedSegment(page int, posts []model.Post) {
+	for _, p := range posts {
+		@PostCard(p)
+	}
+	if len(posts) > 0 {
+		@FeedPageLoader(page + 1)
+	}
 }
