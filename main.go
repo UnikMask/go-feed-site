@@ -29,6 +29,7 @@ func main() {
 	handler.AttachUserHandlers(app)
 	handler.AttachFormHandlers(app)
 	handler.AttachPostHandlers(app)
+	handler.AttachFeedHandlers(app)
 	app.Start(":3000")
 
 	databases.CloseDatabase()

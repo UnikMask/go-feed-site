@@ -14,11 +14,11 @@ import (
 
 func AttachFeedHandlers(app *echo.Echo) {
 	page := app.Group("/feed")
-	page.GET("/", HandleFeedPage)
+	page.GET("", HandleFeedPage)
 
 	api := app.Group(model.ENDPOINT_FEED)
 	api.Use(auth.StrictAuthMiddleware)
-	api.GET("/", HandleGetFeed)
+	api.GET("", HandleGetFeed)
 }
 
 func HandleFeedPage(c echo.Context) error {
