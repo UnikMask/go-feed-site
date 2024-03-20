@@ -94,6 +94,10 @@ func (r Rows) ScanNext(writes ...any) (bool, error) {
 	return true, nil
 }
 
+func (r Rows) Close() {
+	r.c.Close()
+}
+
 func Query(fp string, stmtArgs ...any) (Rows, error) {
 	contents, err := ReadFile(fp)
 	if err != nil {
