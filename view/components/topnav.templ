@@ -5,7 +5,7 @@ import "github.com/UnikMask/gofeedsite/auth"
 
 templ TopNav() {
 	<header
-		class="flex flex-row sticky justify-evenly bg-white dark:bg-slate-800 dark:border-gray-400 border-gray-600 h-16 border-b-2 "
+		class="z-20 fixed top-0 flex flex-row justify-evenly bg-white dark:bg-slate-800 dark:border-gray-400 border-gray-600 h-16 w-screen border-b-2 "
 	>
 		<div class="mx-5 flex-1 flex flex-col justify-center">
 			@LinkButton("/", BUTTON_TYPE_NONE, BUTTON_SIZE_2XL) {
