@@ -21,4 +21,7 @@ LEFT JOIN Likes AS l
     ON l.post_id = p.ROWID
 LEFT JOIN Follows AS f on f.followee = u.ROWID AND f.follower = 1
 GROUP BY 
-    p.ROWID, f.follower;
+    p.ROWID, f.follower
+ORDER BY 
+    p.posted_at DESC
+LIMIT 10;
