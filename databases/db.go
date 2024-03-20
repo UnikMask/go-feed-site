@@ -68,6 +68,7 @@ func QueryRow(fp string, stmtArgs []any, scanElements []any) (bool, error) {
 	if err != nil {
 		return false, err
 	}
+	defer stmt.Close()
 	query := stmt.QueryRow(stmtArgs...)
 	err = query.Scan(scanElements...)
 	if err == sql.ErrNoRows {
