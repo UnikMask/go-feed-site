@@ -2,6 +2,7 @@ package handler
 
 import (
 	"fmt"
+	"net/http"
 	"strconv"
 
 	"github.com/UnikMask/gofeedsite/auth"
@@ -14,7 +15,7 @@ import (
 
 func AttachFeedHandlers(app *echo.Echo) {
 	page := app.Group("/feed")
-	page.Use(auth.RedirectAuthPageMiddleware)
+	page.Use(RedirectAuthPageMiddleware)
 	page.GET("", HandleFeedPage)
 
 	api := app.Group(model.ENDPOINT_FEED)
@@ -41,4 +42,16 @@ func HandleGetFeed(c echo.Context) error {
 		return render(c, layout.PostError("Failed to get posts - try again later!"))
 	}
 	return render(c, components.FeedSegment(page, feed))
+}
+
+func RedirectAuthPageMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		_, ok := c.Request().Context().Value(auth.CTX_USER_AUTH).(model.UserAuth)
+		if !ok {
+			c.Response().Header().Set("HX-Redirect", "/")
+			c.Response().WriteHeader(http.StatusSeeOther)
+			return render(c, layout.Redirection("http://localhost:3000/"))
+		}
+		return next(c)
+	}
 }

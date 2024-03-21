@@ -1,0 +1,7 @@
+package layout
+
+templ Redirection(endpoint string) {
+	<head>
+		<meta http-equiv="Refresh" content={ "0; URL=" + endpoint }/>
+	</head>
+}
