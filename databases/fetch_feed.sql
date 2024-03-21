@@ -20,8 +20,10 @@ JOIN Users AS u
 LEFT JOIN Likes AS l
     ON l.post_id = p.ROWID
 LEFT JOIN Follows AS f on f.followee = u.ROWID AND f.follower = ?1
+WHERE 
+    f.follower = ?1
 GROUP BY 
     p.ROWID, f.follower
 ORDER BY 
     p.posted_at DESC
-LIMIT 10;
+LIMIT 10 OFFSET ?2;

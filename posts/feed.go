@@ -5,8 +5,12 @@ import (
 	"github.com/UnikMask/gofeedsite/model"
 )
 
-func GetPosts(user_id int) ([]model.Post, error) {
-	rows, err := databases.Query("databases/fetch_feed.sql", user_id)
+const (
+	LIMIT_POST_PER_PAGE = 10
+)
+
+func GetPosts(user_id int, page int) ([]model.Post, error) {
+	rows, err := databases.Query("databases/fetch_feed.sql", user_id, LIMIT_POST_PER_PAGE*(page-1))
 	if err != nil {
 		return nil, err
 	}
