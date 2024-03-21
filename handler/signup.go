@@ -33,13 +33,13 @@ func HandleSignUp(c echo.Context) error {
 	}
 
 	// Hash password
-    u_auth, err := auth.SignUp(u)
+	u_auth, err := auth.SignUp(u)
 	if err != nil {
 		log.Printf("Error during user signup: %s", err.Error())
 		return render(c, components.InternalServerErrorTemplate)
 	}
 	auth.SetAuthCookie(c, auth.CreateJwtToken(u_auth))
-	c.Response().Header().Set("HX-Redirect", "/")
+	c.Response().Header().Set("HX-Redirect", "/feed")
 	return nil
 }
 
@@ -63,7 +63,7 @@ func HandleLogIn(c echo.Context) error {
 		return render(c, components.InputError("Email or password incorrect!"))
 	}
 	auth.SetAuthCookie(c, auth.CreateJwtToken(u_auth))
-	c.Response().Header().Set("HX-Redirect", "/")
+	c.Response().Header().Set("HX-Redirect", "/feed")
 	return nil
 }
 
