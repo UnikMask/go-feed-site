@@ -33,3 +33,15 @@ func StrictAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		return next(c)
 	}
 }
+
+func RedirectAuthPageMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		_, ok := c.Request().Context().Value(CTX_USER_AUTH).(model.UserAuth)
+		if !ok {
+			c.Response().Header().Set("HX-Redirect", "/")
+			c.Response().WriteHeader(http.StatusSeeOther)
+			return nil
+		}
+		return next(c)
+	}
+}
