@@ -14,6 +14,7 @@ import (
 
 func AttachFeedHandlers(app *echo.Echo) {
 	page := app.Group("/feed")
+	page.Use(auth.RedirectAuthPageMiddleware)
 	page.GET("", HandleFeedPage)
 
 	api := app.Group(model.ENDPOINT_FEED)
@@ -27,11 +28,11 @@ func HandleFeedPage(c echo.Context) error {
 
 func HandleGetFeed(c echo.Context) error {
 	page, err := strconv.Atoi(c.QueryParam("page"))
-	if err != nil || page < 0 {
+	if err != nil || page < 1 {
 		if err != nil {
 			fmt.Printf("Error fetching page parameter: %v\n", err)
 		}
-		page = 0
+		page = 1
 	}
 	id := auth.GetUserFromContextOrNone(c.Request().Context()).Id
 	feed, err := posts.GetPosts(id, page)
