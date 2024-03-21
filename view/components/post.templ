@@ -28,6 +28,13 @@ templ PostStyles() {
             font-variation-settings: 'FILL' 1;
             transition: all 200ms ease-out;
         }
+        .post-card {
+            opacity: 1;
+            transition: opacity 200ms ease-in;
+        }
+        .post-card.htmx-settling {
+            opacity: 0;
+        }
     </style>
 }
 
@@ -96,7 +103,7 @@ templ ShareButton(p model.Post) {
 }
 
 templ PostCard(p model.Post) {
-	<div class="w-[40rem] rounded-lg text-lg bg-white dark:bg-slate-800">
+	<div class="post-card w-[40rem] rounded-lg text-lg bg-white dark:bg-slate-800">
 		<div class="flex flex-row">
 			<div class="my-2 mx-2">
 				<div class="rounded-full bg-gray-400 dark:bg-slate-700 w-12 h-12 animate-pulse"></div>
